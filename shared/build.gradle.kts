@@ -41,7 +41,10 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
                 api("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatfrom
                 api("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
-
+                // Navigator
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc05")
+                // Transitions
+                implementation("cafe.adriel.voyager:voyager-transitions:1.0.0-rc05")
             }
         }
         val androidMain by getting {
@@ -50,6 +53,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-android:2.3.3")
+                implementation("cafe.adriel.voyager:voyager-androidx:1.0.0-rc05")
             }
         }
         val iosX64Main by getting
