@@ -23,28 +23,35 @@ kotlin {
             baseName = "shared"
             isStatic = true
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+        extraSpecAttributes["resources"] =
+            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
-                implementation(compose.foundation)
                 implementation(compose.material)
+                api(compose.foundation)
+                api(compose.animation)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                // Image processing
                 implementation("media.kamel:kamel-image:0.7.1")
+                // Serialization
                 implementation("io.ktor:ktor-client-core:2.3.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
                 implementation("io.ktor:ktor-client-content-negotiation:2.3.3")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
-                api("dev.icerock.moko:mvvm-compose:0.16.1") // api mvvm-core, getViewModel for Compose Multiplatfrom
-                api("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
-                // Navigator
-                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc05")
-                // Transitions
-                implementation("cafe.adriel.voyager:voyager-transitions:1.0.0-rc05")
+                // api mvvm-core, getViewModel for Compose Multiplatfrom
+                api("dev.icerock.moko:mvvm-compose:0.16.1")
+                // only ViewModel, EventsDispatcher, Dispatchers.UI
+                api("dev.icerock.moko:mvvm-core:0.16.1")
+                // Navigation
+                api("moe.tlaster:precompose:1.4.3")
+                // For ViewModel intergration
+                api("moe.tlaster:precompose-viewmodel:1.4.3")
             }
         }
         val androidMain by getting {
@@ -53,7 +60,9 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-android:2.3.3")
+                // Android ViewModel integration
                 implementation("cafe.adriel.voyager:voyager-androidx:1.0.0-rc05")
+                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.4.3")
             }
         }
         val iosX64Main by getting
