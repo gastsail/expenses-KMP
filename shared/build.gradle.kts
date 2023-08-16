@@ -32,6 +32,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.material)
+                api(compose.materialIconsExtended)
                 api(compose.foundation)
                 api(compose.animation)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
