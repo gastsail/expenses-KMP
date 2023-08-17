@@ -1,6 +1,8 @@
 package ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -26,28 +29,31 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import model.Expense
+import presentation.ExpensesUiState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen() {
-    LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
-        item {
-            ExpensesTotalHeader()
+fun ExpensesScreen(uiState: ExpensesUiState) {
+    LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        stickyHeader {
+            ExpensesTotalHeader(uiState.total)
         }
 
-        item {
+        stickyHeader {
             AllExpensesHeader()
         }
 
-        //TODO THIS WILL BE CONVERTED TO ITEMS
-        item {
-            ExpensesItem()
+        items(uiState.expenses) { expense ->
+            ExpensesItem(expense)
         }
     }
 
 }
 
 @Composable
-fun ExpensesTotalHeader() {
+fun ExpensesTotalHeader(total: Double) {
     Card(shape = RoundedCornerShape(30), backgroundColor = Color.Black, elevation = 5.dp) {
         Box(
             modifier = Modifier.fillMaxWidth().height(130.dp).padding(16.dp),
@@ -55,7 +61,7 @@ fun ExpensesTotalHeader() {
         ) {
 
             Text(
-                text = "$ 17,800",
+                text = "$$total",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.White
@@ -89,7 +95,7 @@ fun AllExpensesHeader() {
 }
 
 @Composable
-fun ExpensesItem() {
+fun ExpensesItem(expense: Expense) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.LightGray,
@@ -105,7 +111,7 @@ fun ExpensesItem() {
             ) {
                 Image(
                     modifier = Modifier.padding(10.dp),
-                    imageVector = Icons.Default.MailOutline,
+                    imageVector = expense.icon,
                     colorFilter = ColorFilter.tint(Color.White),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
@@ -113,16 +119,16 @@ fun ExpensesItem() {
             }
 
             Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
-                Text(text = "Subscription", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                Text(text = expense.category.name, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
                 Text(
-                    text = "Netflix payment",
+                    text = expense.description,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 15.sp,
                     color = Color.Gray
                 )
             }
 
-            Text(text = "$50", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = "$${expense.amount}", fontWeight = FontWeight.Bold, fontSize = 20.sp)
         }
     }
 }

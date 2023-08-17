@@ -1,55 +1,50 @@
 package presentation
 
+import data.fakeExpenseList
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import model.BirdImage
+import model.Expense
+import model.ExpenseCategory
 
 data class ExpensesUiState(
-    val images: List<BirdImage> = emptyList(),
-    val selectedCategory: String? = null
-) {
-    val categories = images.map { it.category }.toSet()
-    val selectedImages = images.filter { it.category == selectedCategory }
-}
-class ExpensesViewModel: ViewModel() {
+    val expenses: List<Expense> = emptyList(),
+    val total: Double = 0.0
+)
+
+class ExpensesViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json()
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        httpClient.close()
-    }
-
     init {
-        getImages()
+        getAllExpenses()
     }
 
-    private fun getImages() {
+    private fun getAllExpenses() {
+        //TODO REPLACE WITH REPO CALL
         viewModelScope.launch {
             _uiState.update {
-                it.copy(images = httpClient.get("https://sebi.io/demo-image-api/pictures.json").body())
+                it.copy(expenses = fakeExpenseList, total = fakeExpenseList.sumOf { it.amount })
             }
         }
     }
 
-    fun selectCategory(category: String) {
-        _uiState.update {
-            it.copy(selectedCategory = category)
+    fun addExpense(expense: Expense) {
+        viewModelScope.launch {
+            //TODO REPLACE WITH REPO CALLS
+            fakeExpenseList.add(expense)
+            _uiState.update {
+                it.copy(expenses = fakeExpenseList, total = fakeExpenseList.sumOf { it.amount })
+            }
         }
     }
 }

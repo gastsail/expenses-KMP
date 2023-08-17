@@ -7,5 +7,5 @@ import ui.ExpensesItem
 @Preview
 @Composable
 fun ExpensesScreenPreview() {
-    ExpensesItem()
+    //ExpensesItem()
 }

@@ -10,6 +10,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation ("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
             }
         }
     }

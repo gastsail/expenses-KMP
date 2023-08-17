@@ -1,18 +1,35 @@
 package navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
+import model.Expense
+import model.ExpenseCategory
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
+import presentation.ExpensesViewModel
 import ui.AddExpensesScreen
 import ui.ExpensesScreen
 
 @Composable
 fun Navigation(navigator: Navigator) {
+    val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel() })
     NavHost(navigator = navigator, initialRoute = "/home") {
         scene("/home") {
-            ExpensesScreen()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+            ExpensesScreen(uiState)
         }
         scene("/addExpenses") {
+            viewModel.addExpense(
+                Expense(
+                amount = 10.0,
+                category = ExpenseCategory.SNACKS,
+                description = "Hommies"
+            )
+            )
             AddExpensesScreen()
         }
     }
