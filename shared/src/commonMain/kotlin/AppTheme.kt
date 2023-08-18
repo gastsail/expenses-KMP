@@ -19,3 +19,6 @@ fun AppTheme(
         content()
     }
 }
+
+val Purple = Color(0xFF6A66FF)
+val GrayItem = Color(0xFFF1F1F1)

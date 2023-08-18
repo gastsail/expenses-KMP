@@ -1,7 +1,10 @@
 package ui
 
+import GrayItem
+import Purple
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -98,7 +101,7 @@ fun AllExpensesHeader() {
 fun ExpensesItem(expense: Expense) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = Color.LightGray,
+        backgroundColor = GrayItem,
         shape = RoundedCornerShape(30)
     ) {
         Row(
@@ -107,7 +110,7 @@ fun ExpensesItem(expense: Expense) {
         ) {
             Surface(
                 modifier = Modifier.size(50.dp),
-                shape = RoundedCornerShape(35), color = Color.Blue
+                shape = RoundedCornerShape(35), color = Purple
             ) {
                 Image(
                     modifier = Modifier.padding(10.dp),
