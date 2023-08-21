@@ -50,9 +50,9 @@ kotlin {
                 // only ViewModel, EventsDispatcher, Dispatchers.UI
                 api("dev.icerock.moko:mvvm-core:0.16.1")
                 // Navigation
-                api("moe.tlaster:precompose:1.4.3")
+                api("moe.tlaster:precompose:1.5.0-beta02")
                 // For ViewModel intergration
-                api("moe.tlaster:precompose-viewmodel:1.4.3")
+                api("moe.tlaster:precompose-viewmodel:1.5.0-beta02")
             }
         }
         val androidMain by getting {
@@ -60,6 +60,8 @@ kotlin {
                 api("androidx.activity:activity-compose:1.6.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
+                api(compose.preview)
+                api(compose.uiTooling)
                 implementation("io.ktor:ktor-client-android:2.3.3")
                 // Android ViewModel integration
                 implementation("cafe.adriel.voyager:voyager-androidx:1.0.0-rc05")
@@ -94,8 +96,8 @@ android {
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
         jvmToolchain(17)

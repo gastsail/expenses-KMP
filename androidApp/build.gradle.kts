@@ -10,7 +10,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
-                implementation ("com.google.accompanist:accompanist-systemuicontroller:0.33.0-alpha")
+                implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta")
             }
         }
     }
@@ -30,8 +30,8 @@ android {
         versionName = "1.0"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
         jvmToolchain(17)
@@ -40,5 +40,11 @@ android {
         resources.excludes.add("META-INF/*")
         resources.excludes.add("META-INF/DEPENDENCIES")
         resources.excludes.add("META-INF/versions")
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    buildFeatures {
+        compose = true
     }
 }

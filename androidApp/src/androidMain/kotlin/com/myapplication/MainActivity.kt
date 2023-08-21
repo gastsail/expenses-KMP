@@ -38,5 +38,4 @@ private fun TransparentStatusBar() {
 
         onDispose {}
     }
-
 }

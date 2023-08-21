@@ -40,12 +40,13 @@ import presentation.ExpensesUiState
 fun ExpensesScreen(uiState: ExpensesUiState) {
     LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        stickyHeader {
-            ExpensesTotalHeader(uiState.total)
-        }
 
         stickyHeader {
-            AllExpensesHeader()
+            Column(modifier = Modifier.background(Color.White)) {
+                ExpensesTotalHeader(uiState.total)
+                AllExpensesHeader()
+            }
+
         }
 
         items(uiState.expenses) { expense ->
