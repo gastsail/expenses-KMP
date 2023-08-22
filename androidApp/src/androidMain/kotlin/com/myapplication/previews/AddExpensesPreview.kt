@@ -7,5 +7,5 @@ import ui.AddExpensesScreen
 @Preview(showBackground = true)
 @Composable
 fun ExpensesDetailsPreview() {
-    AddExpensesScreen()
+    AddExpensesScreen(addExpenseAndNavigateBack = {_,_,_ ->})
 }

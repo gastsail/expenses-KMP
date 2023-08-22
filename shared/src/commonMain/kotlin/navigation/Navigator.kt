@@ -22,14 +22,16 @@ fun Navigation(navigator: Navigator) {
             ExpensesScreen(uiState)
         }
         scene("/addExpenses") {
-            viewModel.addExpense(
-                Expense(
-                amount = 10.0,
-                category = ExpenseCategory.SNACKS,
-                description = "Hommies"
-            )
-            )
-            AddExpensesScreen()
+            AddExpensesScreen(addExpenseAndNavigateBack = { price, description, expenseCategory ->
+                viewModel.addExpense(
+                    Expense(
+                        amount = price,
+                        category = ExpenseCategory.valueOf(expenseCategory),
+                        description = description
+                    )
+                )
+                navigator.popBackStack()
+            })
         }
     }
 }

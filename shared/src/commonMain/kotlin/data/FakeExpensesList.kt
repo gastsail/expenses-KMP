@@ -35,8 +35,8 @@ val fakeExpenseList = mutableListOf(
         description = "Expenses"
     ),
     Expense(
-        amount = 13.0,
-        category = ExpenseCategory.HOUSE,
-        description = "House keeping"
-    ),
+        amount = 25.0,
+        category = ExpenseCategory.OTHER,
+        description = "CLEANING"
+    )
 )

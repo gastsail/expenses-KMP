@@ -1,6 +1,9 @@
 package ui
 
+import Purple
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,17 +12,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,27 +41,67 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.fakeExpenseList
+import model.ExpenseCategory
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddExpensesScreen() {
+fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: String, expenseCategory: String) -> Unit) {
+
     var price by remember { mutableStateOf(0.0) }
     var description by remember { mutableStateOf("") }
-    Column(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp, horizontal = 16.dp)) {
-        ExpenseAmount(onPriceChange = {
-            price = it
-        })
-        Spacer(modifier = Modifier.height(30.dp))
-        ExpenseTypeSelector()
-        Spacer(modifier = Modifier.height(30.dp))
-        ExpenseDescription(onDescriptionChange = {
-            description = it
-        })
+    var expenseCategory by remember { mutableStateOf("") }
+    var isBottomSheetOpen by remember { mutableStateOf(false) }
+    var categorySelected by remember { mutableStateOf("Select a category") }
+
+    BottomSheetScaffold(
+        scaffoldState = rememberBottomSheetScaffoldState(),
+        sheetContent = {
+            if (isBottomSheetOpen) {
+                CategoryBottomSheetContent(fakeExpenseList.map { it.category }) {
+                    expenseCategory = it.name
+                    categorySelected = it.name
+                    isBottomSheetOpen = false
+                }
+            }
+        },
+        sheetPeekHeight = if(isBottomSheetOpen) 100.dp else 0.dp
+    ) {
+        Column(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp, horizontal = 16.dp)) {
+            ExpenseAmount(onPriceChange = {
+                price = it
+            })
+            Spacer(modifier = Modifier.height(30.dp))
+            ExpenseTypeSelector(categorySelected = categorySelected, isBottomSheetOpen = {
+                isBottomSheetOpen = it
+            })
+            Spacer(modifier = Modifier.height(30.dp))
+            ExpenseDescription(onDescriptionChange = {
+                description = it
+            })
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(45)),
+                onClick = {
+                    addExpenseAndNavigateBack(price, description, expenseCategory)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Purple,
+                    contentColor = Color.White
+                ),
+                enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
+            ) {
+                Text("Add Expense")
+            }
+        }
     }
+
 }
 
 @Composable
@@ -104,7 +156,10 @@ private fun ExpenseAmount(onPriceChange: (Double) -> Unit) {
 }
 
 @Composable
-private fun ExpenseTypeSelector() {
+private fun ExpenseTypeSelector(
+    categorySelected: String,
+    isBottomSheetOpen: (Boolean) -> Unit
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
             Text(
@@ -115,17 +170,57 @@ private fun ExpenseTypeSelector() {
                 color = Color.Gray
             )
             Text(
-                text = "Tea & Snacks",
+                text = categorySelected,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black
             )
         }
-        IconButton(modifier = Modifier.clip(RoundedCornerShape(35)).background(Color.Gray.copy(alpha = .2f)), onClick = {
-            //TODO
-        }) {
+        IconButton(
+            modifier = Modifier.clip(RoundedCornerShape(35))
+                .background(Color.Gray.copy(alpha = .2f)),
+            onClick = {
+                isBottomSheetOpen(true)
+            }) {
             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
         }
+    }
+}
+
+@Composable
+fun CategoryBottomSheetContent(
+    categories: List<ExpenseCategory>,
+    onCategorySelected: (ExpenseCategory) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        items(categories) { category ->
+            CategoryItem(category, onCategorySelected)
+        }
+    }
+}
+
+@Composable
+fun CategoryItem(category: ExpenseCategory, onCategorySelected: (ExpenseCategory) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onCategorySelected(category) },
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            imageVector = category.icon,
+            contentDescription = null,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+        Text(text = category.name)
     }
 }
 
@@ -135,7 +230,6 @@ private fun ExpenseDescription(onDescriptionChange: (String) -> Unit) {
 
     Column {
         Text(
-            modifier = Modifier.padding(bottom = 8.dp),
             text = "Description",
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
@@ -161,5 +255,6 @@ private fun ExpenseDescription(onDescriptionChange: (String) -> Unit) {
             ),
             textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         )
+        Divider(color = Color.Black, thickness = 2.dp)
     }
 }
