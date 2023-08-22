@@ -26,13 +26,17 @@ import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,19 +63,23 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     var expenseCategory by remember { mutableStateOf("") }
     var isBottomSheetOpen by remember { mutableStateOf(false) }
     var categorySelected by remember { mutableStateOf("Select a category") }
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden
+    )
 
-    BottomSheetScaffold(
-        scaffoldState = rememberBottomSheetScaffoldState(),
+    LaunchedEffect(isBottomSheetOpen) {
+        if(!isBottomSheetOpen) sheetState.hide() else sheetState.show()
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
         sheetContent = {
-            if (isBottomSheetOpen) {
-                CategoryBottomSheetContent(fakeExpenseList.map { it.category }) {
-                    expenseCategory = it.name
-                    categorySelected = it.name
-                    isBottomSheetOpen = false
-                }
+            CategoryBottomSheetContent(fakeExpenseList.map { it.category }) {
+                expenseCategory = it.name
+                categorySelected = it.name
+                isBottomSheetOpen = false
             }
-        },
-        sheetPeekHeight = if(isBottomSheetOpen) 100.dp else 0.dp
+        }
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp, horizontal = 16.dp)) {
             ExpenseAmount(onPriceChange = {
