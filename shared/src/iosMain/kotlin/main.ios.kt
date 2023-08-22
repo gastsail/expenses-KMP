@@ -1,3 +1,3 @@
 import moe.tlaster.precompose.PreComposeApplication
 
-fun MainViewController() = PreComposeApplication(title = "iOS") { App() }
+fun MainViewController() = PreComposeApplication { App() }

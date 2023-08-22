@@ -4,9 +4,3 @@ import data.fakeExpenseList
 import ui.ExpensesItem
 
 @Composable fun MainView() = App()
-
-@Preview
-@Composable
-fun ExpensesScreenPreview() {
-    ExpensesItem(fakeExpenseList.first())
-}
