@@ -5,11 +5,13 @@ import model.Expense
 
 class ExpenseRepoImpl: ExpenseRepository {
 
+    private val expenses = fakeExpenseList.toMutableList()
+
     override fun getAllExpenses(): List<Expense> {
-        return fakeExpenseList
+        return expenses.toList()
     }
 
     override fun addExpense(expense: Expense) {
-        fakeExpenseList.add(expense)
+        expenses.add(expense)
     }
 }
