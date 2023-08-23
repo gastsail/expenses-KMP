@@ -10,12 +10,14 @@ import model.ExpenseCategory
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
+import org.koin.compose.koinInject
 import presentation.ExpensesViewModel
 import ui.AddExpensesScreen
 import ui.ExpensesScreen
 
 @Composable
 fun Navigation(navigator: Navigator) {
+    //val viewModel = koinInject<ExpensesViewModel>()  --> This works on Android, but cannot inject on iOS yet :(
     val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel(ExpenseRepoImpl()) })
     NavHost(navigator = navigator, initialRoute = "/home") {
         scene("/home") {

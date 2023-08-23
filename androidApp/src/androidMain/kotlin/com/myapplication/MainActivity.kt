@@ -9,8 +9,6 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import moe.tlaster.precompose.lifecycle.PreComposeActivity
 import moe.tlaster.precompose.lifecycle.setContent
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 
 class MainActivity : PreComposeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
