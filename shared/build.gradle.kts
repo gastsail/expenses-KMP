@@ -37,6 +37,9 @@ kotlin {
                 api(compose.animation)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                //DI
+                implementation("io.insert-koin:koin-core:3.4.2")
+                implementation("io.insert-koin:koin-compose:1.0.3")
 
                 // Image processing
                 implementation("media.kamel:kamel-image:0.7.1")
@@ -62,6 +65,7 @@ kotlin {
                 api("androidx.core:core-ktx:1.9.0")
                 api(compose.preview)
                 api(compose.uiTooling)
+                //Serialization
                 implementation("io.ktor:ktor-client-android:2.3.3")
                 // Android ViewModel integration
                 implementation("cafe.adriel.voyager:voyager-androidx:1.0.0-rc05")

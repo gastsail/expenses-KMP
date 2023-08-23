@@ -11,6 +11,8 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta")
+                implementation("io.insert-koin:koin-android:3.4.0")
+                implementation("io.insert-koin:koin-androidx-compose:3.4.5")
             }
         }
     }

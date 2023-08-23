@@ -30,6 +30,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven( "https://dl.bintray.com/ekito/koin")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }

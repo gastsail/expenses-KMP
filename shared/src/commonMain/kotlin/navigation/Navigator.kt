@@ -2,6 +2,7 @@ package navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import data.ExpenseRepoImpl
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import model.Expense
@@ -15,7 +16,7 @@ import ui.ExpensesScreen
 
 @Composable
 fun Navigation(navigator: Navigator) {
-    val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel() })
+    val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel(ExpenseRepoImpl()) })
     NavHost(navigator = navigator, initialRoute = "/home") {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
