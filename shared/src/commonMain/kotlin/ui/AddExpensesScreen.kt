@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -193,13 +196,14 @@ private fun ExpenseTypeSelector(
 }
 
 @Composable
-fun CategoryBottomSheetContent(
+private fun CategoryBottomSheetContent(
     categories: List<ExpenseCategory>,
     onCategorySelected: (ExpenseCategory) -> Unit
 ) {
-    LazyRow(
+    LazyVerticalGrid(
         modifier = Modifier.padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        columns = GridCells.Fixed(3),
+        verticalArrangement = Arrangement.Center,
         horizontalArrangement = Arrangement.Center
     ) {
         items(categories) { category ->
@@ -209,7 +213,7 @@ fun CategoryBottomSheetContent(
 }
 
 @Composable
-fun CategoryItem(category: ExpenseCategory, onCategorySelected: (ExpenseCategory) -> Unit) {
+private fun CategoryItem(category: ExpenseCategory, onCategorySelected: (ExpenseCategory) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

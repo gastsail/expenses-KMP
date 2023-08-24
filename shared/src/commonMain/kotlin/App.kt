@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Composable
 fun App() {
