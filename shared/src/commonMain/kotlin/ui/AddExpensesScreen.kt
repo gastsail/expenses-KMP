@@ -155,7 +155,7 @@ private fun ExpenseAmount(onPriceChange: (Double) -> Unit, keyboardController: S
                 },
                 value = text,
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(

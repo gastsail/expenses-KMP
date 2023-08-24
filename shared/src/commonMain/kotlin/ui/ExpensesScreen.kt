@@ -100,7 +100,7 @@ fun AllExpensesHeader() {
 @Composable
 fun ExpensesItem(expense: Expense) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp),
         backgroundColor = GrayItem,
         shape = RoundedCornerShape(30)
     ) {
