@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -42,12 +43,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,7 +60,7 @@ import data.fakeExpenseList
 import kotlinx.coroutines.launch
 import model.ExpenseCategory
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: String, expenseCategory: String) -> Unit) {
 
@@ -66,7 +71,14 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
+    val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(sheetState.targetValue) {
+        if(sheetState.targetValue == ModalBottomSheetValue.Expanded){
+            keyboardController?.hide()
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
@@ -83,7 +95,7 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp, horizontal = 16.dp)) {
             ExpenseAmount(onPriceChange = {
                 price = it
-            })
+            }, keyboardController = keyboardController)
             Spacer(modifier = Modifier.height(30.dp))
             ExpenseTypeSelector(categorySelected = categorySelected, openBottomSheet = {
                 scope.launch {
@@ -93,7 +105,7 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
             Spacer(modifier = Modifier.height(30.dp))
             ExpenseDescription(onDescriptionChange = {
                 description = it
-            })
+            }, keyboardController = keyboardController)
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(45)),
@@ -113,8 +125,9 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseAmount(onPriceChange: (Double) -> Unit) {
+private fun ExpenseAmount(onPriceChange: (Double) -> Unit, keyboardController: SoftwareKeyboardController?) {
     var text by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -141,7 +154,15 @@ private fun ExpenseAmount(onPriceChange: (Double) -> Unit) {
                     text = newText
                 },
                 value = text,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }
+                ),
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.Black,
@@ -235,8 +256,9 @@ private fun CategoryItem(category: ExpenseCategory, onCategorySelected: (Expense
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseDescription(onDescriptionChange: (String) -> Unit) {
+private fun ExpenseDescription(onDescriptionChange: (String) -> Unit, keyboardController: SoftwareKeyboardController?) {
     var text by remember { mutableStateOf("") }
 
     Column {
@@ -264,7 +286,12 @@ private fun ExpenseDescription(onDescriptionChange: (String) -> Unit) {
                 unfocusedIndicatorColor = Color.Transparent,
                 unfocusedLabelColor = Color.Transparent
             ),
-            textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+            textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                }
+            )
         )
         Divider(color = Color.Black, thickness = 2.dp)
     }
