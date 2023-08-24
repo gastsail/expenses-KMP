@@ -13,11 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,9 +35,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,6 +52,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.fakeExpenseList
+import kotlinx.coroutines.launch
 import model.ExpenseCategory
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -61,15 +62,11 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     var price by remember { mutableStateOf(0.0) }
     var description by remember { mutableStateOf("") }
     var expenseCategory by remember { mutableStateOf("") }
-    var isBottomSheetOpen by remember { mutableStateOf(false) }
     var categorySelected by remember { mutableStateOf("Select a category") }
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
-
-    LaunchedEffect(isBottomSheetOpen) {
-        if(!isBottomSheetOpen) sheetState.hide() else sheetState.show()
-    }
+    val scope = rememberCoroutineScope()
 
     ModalBottomSheetLayout(
         sheetState = sheetState,
@@ -77,7 +74,9 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
             CategoryBottomSheetContent(fakeExpenseList.map { it.category }) {
                 expenseCategory = it.name
                 categorySelected = it.name
-                isBottomSheetOpen = false
+                scope.launch {
+                    sheetState.hide()
+                }
             }
         }
     ) {
@@ -86,8 +85,10 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
                 price = it
             })
             Spacer(modifier = Modifier.height(30.dp))
-            ExpenseTypeSelector(categorySelected = categorySelected, isBottomSheetOpen = {
-                isBottomSheetOpen = it
+            ExpenseTypeSelector(categorySelected = categorySelected, openBottomSheet = {
+                scope.launch {
+                    sheetState.show()
+                }
             })
             Spacer(modifier = Modifier.height(30.dp))
             ExpenseDescription(onDescriptionChange = {
@@ -166,7 +167,7 @@ private fun ExpenseAmount(onPriceChange: (Double) -> Unit) {
 @Composable
 private fun ExpenseTypeSelector(
     categorySelected: String,
-    isBottomSheetOpen: (Boolean) -> Unit
+    openBottomSheet: () -> Unit
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
@@ -188,7 +189,7 @@ private fun ExpenseTypeSelector(
             modifier = Modifier.clip(RoundedCornerShape(35))
                 .background(Color.Gray.copy(alpha = .2f)),
             onClick = {
-                isBottomSheetOpen(true)
+                openBottomSheet.invoke()
             }) {
             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
         }
