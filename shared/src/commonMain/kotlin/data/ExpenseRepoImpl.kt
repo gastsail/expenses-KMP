@@ -12,4 +12,8 @@ class ExpenseRepoImpl: ExpenseRepository {
     override fun addExpense(expense: Expense) {
         ExpenseManager.addNewExpense(expense)
     }
+
+    override fun editExpense(expense: Expense) {
+        TODO("Not yet implemented")
+    }
 }

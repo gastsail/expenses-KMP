@@ -54,4 +54,12 @@ object ExpenseManager {
     fun addNewExpense(expense: Expense) {
         fakeExpenseList.add(expense.copy(id = currentId++))
     }
+
+    fun editExpense(expense: Expense) {
+        fakeExpenseList.find { it.id == expense.id }?.copy(
+            amount = expense.amount,
+            category = expense.category,
+            description = expense.description
+        )
+    }
 }
