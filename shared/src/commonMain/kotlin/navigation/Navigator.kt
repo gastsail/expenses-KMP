@@ -23,20 +23,20 @@ fun Navigation(navigator: Navigator) {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ExpensesScreen(uiState) { expense ->
-                //TODO, NAVIGATE TO /addExpenses WITH THE EXPENSE DATA, THEN POPULATE ITS FIELDS
-                // YOU SHOULD SEND THIS AS NAVIGATION ARGUMENTS
+                viewModel.expenseToEdit = expense
+                navigator.navigate("/addExpenses")
             }
         }
         scene("/addExpenses") {
-            //TODO RECEIVE ARGUMENTS HERE AND INITIALIZE ADDEXPENSESSCREEN WITH THOSE VALUES IF EXPENSES EXISTS
-            AddExpensesScreen(addExpenseAndNavigateBack = { price, description, expenseCategory ->
-                viewModel.addExpense(
-                    Expense(
-                        amount = price,
-                        category = ExpenseCategory.valueOf(expenseCategory),
-                        description = description
-                    )
-                )
+            val isAddExpense = viewModel.expenseToEdit == null
+            println("retorna expense -> ${isAddExpense} , ${viewModel.expenseToEdit?.amount}")
+            AddExpensesScreen(expenseToEdit = viewModel.expenseToEdit,addExpenseAndNavigateBack = { expense ->
+                println("dentro del callback -> ${isAddExpense} , ${expense.amount}")
+                if (isAddExpense){
+                    viewModel.addExpense(expense)
+                }else{
+                    viewModel.editExpense(expense)
+                }
                 navigator.popBackStack()
             })
         }

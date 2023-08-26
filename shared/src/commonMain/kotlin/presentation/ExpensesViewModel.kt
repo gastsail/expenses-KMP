@@ -18,6 +18,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
     private val allExpenses = repo.getAllExpenses()
+    var expenseToEdit:Expense?= null
 
     init {
         getAllExpenses()
@@ -25,8 +26,8 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     private fun getAllExpenses() {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
+            _uiState.update {state ->
+                state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
     }
@@ -34,8 +35,17 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     fun addExpense(expense: Expense) {
         viewModelScope.launch {
             repo.addExpense(expense)
-            _uiState.update {
-                it.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
+            _uiState.update {state ->
+                state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
+            }
+        }
+    }
+
+    fun editExpense(expense: Expense) {
+        viewModelScope.launch {
+            repo.editExpense(expense)
+            _uiState.update {state ->
+                state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
     }

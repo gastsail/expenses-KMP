@@ -56,10 +56,15 @@ object ExpenseManager {
     }
 
     fun editExpense(expense: Expense) {
-        fakeExpenseList.find { it.id == expense.id }?.copy(
-            amount = expense.amount,
-            category = expense.category,
-            description = expense.description
-        )
+        val index = fakeExpenseList.indexOfFirst { it.id == expense.id }
+        println("index input $index los id son ${expense.id}")
+        if (index != -1) {
+            println("entro ids")
+            fakeExpenseList[index] = fakeExpenseList[index].copy(
+                amount = expense.amount,
+                category = expense.category,
+                description = expense.description
+            )
+        }
     }
 }
