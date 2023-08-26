@@ -5,6 +5,7 @@ import Purple
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,13 +31,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import data.fakeExpenseList
 import model.Expense
 import presentation.ExpensesUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen(uiState: ExpensesUiState) {
+fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
     LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
@@ -45,11 +45,10 @@ fun ExpensesScreen(uiState: ExpensesUiState) {
                 ExpensesTotalHeader(uiState.total)
                 AllExpensesHeader()
             }
-
         }
 
         items(uiState.expenses) { expense ->
-            ExpensesItem(expense)
+            ExpensesItem(expense, onExpenseClick)
         }
     }
 
@@ -98,9 +97,11 @@ fun AllExpensesHeader() {
 }
 
 @Composable
-fun ExpensesItem(expense: Expense) {
+fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp).clickable {
+            onExpenseClick(expense)
+        },
         backgroundColor = GrayItem,
         shape = RoundedCornerShape(30)
     ) {

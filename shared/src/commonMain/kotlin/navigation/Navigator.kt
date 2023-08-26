@@ -22,9 +22,13 @@ fun Navigation(navigator: Navigator) {
     NavHost(navigator = navigator, initialRoute = "/home") {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            ExpensesScreen(uiState)
+            ExpensesScreen(uiState) { expense ->
+                //TODO, NAVIGATE TO /addExpenses WITH THE EXPENSE DATA, THEN POPULATE ITS FIELDS
+                // YOU SHOULD SEND THIS AS NAVIGATION ARGUMENTS
+            }
         }
         scene("/addExpenses") {
+            //TODO RECEIVE ARGUMENTS HERE AND INITIALIZE ADDEXPENSESSCREEN WITH THOSE VALUES IF EXPENSES EXISTS
             AddExpensesScreen(addExpenseAndNavigateBack = { price, description, expenseCategory ->
                 viewModel.addExpense(
                     Expense(

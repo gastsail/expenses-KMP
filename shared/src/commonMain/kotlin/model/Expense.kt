@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ViewCozy
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class Expense(
+    val id:Long = -1,
     val amount: Double,
     val category: ExpenseCategory,
     val description: String

@@ -36,7 +36,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,7 +55,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import data.fakeExpenseList
+import data.ExpenseManager
 import kotlinx.coroutines.launch
 import model.ExpenseCategory
 
@@ -83,7 +82,7 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            CategoryBottomSheetContent(fakeExpenseList.map { it.category }) {
+            CategoryBottomSheetContent(ExpenseManager.fakeExpenseList.map { it.category }) {
                 expenseCategory = it.name
                 categorySelected = it.name
                 scope.launch {
