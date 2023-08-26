@@ -96,7 +96,6 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
             ExpenseAmount(
                 priceContent = price,
                 onPriceChange = {
-                    println("setea el valor -> $it")
                     price = it
                 },
                 keyboardController = keyboardController
