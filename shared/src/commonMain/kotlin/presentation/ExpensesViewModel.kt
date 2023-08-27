@@ -18,7 +18,6 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
     private val allExpenses = repo.getAllExpenses()
-    var expenseToEdit:Expense?= null
 
     init {
         getAllExpenses()
@@ -48,5 +47,9 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
                 state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
+    }
+
+    fun getExpenseWithID(id:Long):Expense?{
+        return allExpenses.first { it.id == id }
     }
 }

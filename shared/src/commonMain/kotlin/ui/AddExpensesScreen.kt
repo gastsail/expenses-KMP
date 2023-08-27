@@ -163,12 +163,18 @@ private fun ExpenseAmount(priceContent:Double,onPriceChange: (Double) -> Unit, k
                 modifier = Modifier.weight(1f),
                 onValueChange = { newText ->
                     val numericText = newText.filter { it.isDigit() || it == '.' }
-                    if (numericText.isNotBlank()) {
-                        onPriceChange(numericText.toDouble())
+                    text = if (numericText.isNotBlank() && numericText.count { it == '.' } <= 1) {
+                        try {
+                            val newValue = numericText.toDouble()
+                            onPriceChange(newValue)
+                            numericText
+                        } catch (e: NumberFormatException) {
+                            ""
+                        }
                     } else {
                         onPriceChange(0.0)
+                        ""
                     }
-                    text = newText
                 },
                 value = text,
                 keyboardOptions = KeyboardOptions.Default.copy(

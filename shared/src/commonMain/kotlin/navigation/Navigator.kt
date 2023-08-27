@@ -8,6 +8,7 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.navigation.path
 import presentation.ExpensesViewModel
 import ui.AddExpensesScreen
 import ui.ExpensesScreen
@@ -20,14 +21,15 @@ fun Navigation(navigator: Navigator) {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ExpensesScreen(uiState) { expense ->
-                viewModel.expenseToEdit = expense
-                navigator.navigate("/addExpenses")
+                navigator.navigate("/addExpenses/${expense.id}")
             }
         }
-        scene("/addExpenses") {
-            val isAddExpense = viewModel.expenseToEdit == null
-            AddExpensesScreen(expenseToEdit = viewModel.expenseToEdit,addExpenseAndNavigateBack = { expense ->
-                if (isAddExpense){
+        scene("/addExpenses/{id}?") {
+            val idFromPath = it.path<Long>("id")
+            val isAddExpense = idFromPath?.let { id -> viewModel.getExpenseWithID(id) }
+
+            AddExpensesScreen(expenseToEdit = isAddExpense,addExpenseAndNavigateBack = { expense ->
+                if (isAddExpense == null){
                     viewModel.addExpense(expense)
                 }else{
                     viewModel.editExpense(expense)
