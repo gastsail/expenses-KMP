@@ -84,7 +84,7 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            CategoryBottomSheetContent(ExpenseManager.fakeExpenseList.map { it.category }.distinct()) {
+            CategoryBottomSheetContent(ExpenseManager.getCategorys()) {
                 expenseCategory = it.name
                 categorySelected = it.name
                 scope.launch {

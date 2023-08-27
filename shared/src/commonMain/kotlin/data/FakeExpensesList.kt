@@ -1,5 +1,13 @@
 package data
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Coffee
+import androidx.compose.material.icons.filled.ElectricCar
+import androidx.compose.material.icons.filled.Fastfood
+import androidx.compose.material.icons.filled.FoodBank
+import androidx.compose.material.icons.filled.House
+import androidx.compose.material.icons.filled.PartyMode
+import androidx.compose.material.icons.filled.ViewCozy
 import model.Expense
 import model.ExpenseCategory
 object ExpenseManager {
@@ -64,5 +72,17 @@ object ExpenseManager {
                 description = expense.description
             )
         }
+    }
+
+    fun getCategorys():List<ExpenseCategory> {
+        return listOf(
+            ExpenseCategory.GROCERIES,
+            ExpenseCategory.PARTY,
+            ExpenseCategory.SNACKS,
+            ExpenseCategory.COFFEE,
+            ExpenseCategory.CAR,
+            ExpenseCategory.HOUSE,
+            ExpenseCategory.OTHER
+        )
     }
 }
