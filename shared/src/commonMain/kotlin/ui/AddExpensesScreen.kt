@@ -56,6 +56,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.ExpenseManager
+import data.TitleTopBarTypes
 import kotlinx.coroutines.launch
 import model.Expense
 import model.ExpenseCategory
@@ -132,10 +133,10 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
                 enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
             ) {
                 expenseToEdit?.let{
-                    Text("Edit Expense")
+                    Text(TitleTopBarTypes.EDIT.value)
                     return@Button
                 }
-                Text("Add Expense")
+                Text(TitleTopBarTypes.ADD.value)
             }
         }
     }

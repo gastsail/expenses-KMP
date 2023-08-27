@@ -19,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.TitleTopBarTypes
+import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
 
@@ -26,14 +29,14 @@ import navigation.Navigation
 fun App() {
     AppTheme {
         val navigator = rememberNavigator()
-        val isOnAddExpenses =
-            navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses")
+        val titleTopBar = getTitleTopAppBar(navigator)
+        val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             TopAppBar(
                 elevation = 0.dp,
-                title = { Text(if (isOnAddExpenses) "Add Amount" else "Dashboard", fontSize = 25.sp) },
+                title = { Text(titleTopBar, fontSize = 25.sp) },
                 navigationIcon = {
-                    if (isOnAddExpenses) {
+                    if (isEditOrAddExpenses) {
                         IconButton(
                             onClick = {
                             navigator.popBackStack()
@@ -55,7 +58,7 @@ fun App() {
                     }
                 },
                 actions = {
-                    if (!isOnAddExpenses) {
+                    if (!isEditOrAddExpenses) {
                         /* TODO: THIS WORKS FOR ANDROID BUT NOT FOR iOS
                         Image(
                             modifier = Modifier.size(60.dp).clip(RoundedCornerShape(25)).padding(end = 16.dp),
@@ -70,7 +73,7 @@ fun App() {
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Navigation(navigator)
-                if (!isOnAddExpenses) {
+                if (!isEditOrAddExpenses) {
                     FloatingActionButton(
                         modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), onClick = {
                             navigator.navigate("/addExpenses")
@@ -87,4 +90,22 @@ fun App() {
             }
         }
     }
+}
+
+@Composable
+fun getTitleTopAppBar(navigator:Navigator):String{
+    var titleTopBar = TitleTopBarTypes.DASHBOARD
+
+    val isOnAddExpenses =
+        navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}?")
+    if (isOnAddExpenses){
+        titleTopBar = TitleTopBarTypes.ADD
+    }
+
+    val isOnEditExpense = navigator.currentEntry.collectAsState(null).value?.path<Long>("id")
+    isOnEditExpense?.let {
+        titleTopBar = TitleTopBarTypes.EDIT
+    }
+
+    return  titleTopBar.value
 }
