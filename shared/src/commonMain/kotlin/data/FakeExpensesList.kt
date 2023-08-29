@@ -2,6 +2,7 @@ package data
 
 import model.Expense
 import model.ExpenseCategory
+
 object ExpenseManager {
 
     private var currentId = 1L
@@ -56,10 +57,25 @@ object ExpenseManager {
     }
 
     fun editExpense(expense: Expense) {
-        fakeExpenseList.find { it.id == expense.id }?.copy(
-            amount = expense.amount,
-            category = expense.category,
-            description = expense.description
+        val index = fakeExpenseList.indexOfFirst { it.id == expense.id }
+        if (index != -1) {
+            fakeExpenseList[index] = fakeExpenseList[index].copy(
+                amount = expense.amount,
+                category = expense.category,
+                description = expense.description
+            )
+        }
+    }
+
+    fun getCategorys(): List<ExpenseCategory> {
+        return listOf(
+            ExpenseCategory.GROCERIES,
+            ExpenseCategory.PARTY,
+            ExpenseCategory.SNACKS,
+            ExpenseCategory.COFFEE,
+            ExpenseCategory.CAR,
+            ExpenseCategory.HOUSE,
+            ExpenseCategory.OTHER
         )
     }
 }

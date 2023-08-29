@@ -56,17 +56,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.ExpenseManager
+import data.TitleTopBarTypes
 import kotlinx.coroutines.launch
+import model.Expense
 import model.ExpenseCategory
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: String, expenseCategory: String) -> Unit) {
+fun AddExpensesScreen(
+    expenseToEdit: Expense? = null,
+    addExpenseAndNavigateBack: (Expense) -> Unit
+) {
 
-    var price by remember { mutableStateOf(0.0) }
-    var description by remember { mutableStateOf("") }
-    var expenseCategory by remember { mutableStateOf("") }
-    var categorySelected by remember { mutableStateOf("Select a category") }
+    var price by remember { mutableStateOf(expenseToEdit?.amount ?: 0.0) }
+    var description by remember { mutableStateOf(expenseToEdit?.description ?: "") }
+    var expenseCategory by remember { mutableStateOf(expenseToEdit?.category?.name ?: "") }
+    var categorySelected by remember {
+        mutableStateOf(
+            expenseToEdit?.category?.name ?: "Select a category"
+        )
+    }
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
@@ -74,7 +83,7 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(sheetState.targetValue) {
-        if(sheetState.targetValue == ModalBottomSheetValue.Expanded){
+        if (sheetState.targetValue == ModalBottomSheetValue.Expanded) {
             keyboardController?.hide()
         }
     }
@@ -82,7 +91,7 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            CategoryBottomSheetContent(ExpenseManager.fakeExpenseList.map { it.category }) {
+            CategoryBottomSheetContent(ExpenseManager.getCategorys()) {
                 expenseCategory = it.name
                 categorySelected = it.name
                 scope.launch {
@@ -92,9 +101,13 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
         }
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(vertical = 16.dp, horizontal = 16.dp)) {
-            ExpenseAmount(onPriceChange = {
-                price = it
-            }, keyboardController = keyboardController)
+            ExpenseAmount(
+                priceContent = price,
+                onPriceChange = {
+                    price = it
+                },
+                keyboardController = keyboardController
+            )
             Spacer(modifier = Modifier.height(30.dp))
             ExpenseTypeSelector(categorySelected = categorySelected, openBottomSheet = {
                 scope.launch {
@@ -102,14 +115,23 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
                 }
             })
             Spacer(modifier = Modifier.height(30.dp))
-            ExpenseDescription(onDescriptionChange = {
-                description = it
-            }, keyboardController = keyboardController)
+            ExpenseDescription(
+                descriptionContent = description,
+                onDescriptionChange = {
+                    description = it
+                }, keyboardController = keyboardController
+            )
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(45)),
                 onClick = {
-                    addExpenseAndNavigateBack(price, description, expenseCategory)
+                    val expense = Expense(
+                        amount = price,
+                        category = ExpenseCategory.valueOf(expenseCategory),
+                        description = description
+                    )
+                    val expenseFromEdit = expenseToEdit?.id?.let { expense.copy(id = it) }
+                    addExpenseAndNavigateBack(expenseFromEdit ?: expense)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Purple,
@@ -117,7 +139,11 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
                 ),
                 enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
             ) {
-                Text("Add Expense")
+                expenseToEdit?.let {
+                    Text(TitleTopBarTypes.EDIT.value)
+                    return@Button
+                }
+                Text(TitleTopBarTypes.ADD.value)
             }
         }
     }
@@ -126,8 +152,12 @@ fun AddExpensesScreen(addExpenseAndNavigateBack: (price: Double, description: St
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseAmount(onPriceChange: (Double) -> Unit, keyboardController: SoftwareKeyboardController?) {
-    var text by remember { mutableStateOf("") }
+private fun ExpenseAmount(
+    priceContent: Double,
+    onPriceChange: (Double) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
+    var text by remember { mutableStateOf("$priceContent") }
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
@@ -140,17 +170,23 @@ private fun ExpenseAmount(onPriceChange: (Double) -> Unit, keyboardController: S
             fontWeight = FontWeight.SemiBold
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "$", fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
             TextField(
                 modifier = Modifier.weight(1f),
                 onValueChange = { newText ->
                     val numericText = newText.filter { it.isDigit() || it == '.' }
-                    if (numericText.isNotBlank()) {
-                        onPriceChange(numericText.toDouble())
+                    text = if (numericText.isNotBlank() && numericText.count { it == '.' } <= 1) {
+                        try {
+                            val newValue = numericText.toDouble()
+                            onPriceChange(newValue)
+                            numericText
+                        } catch (e: NumberFormatException) {
+                            ""
+                        }
                     } else {
                         onPriceChange(0.0)
+                        ""
                     }
-                    text = newText
                 },
                 value = text,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -257,8 +293,12 @@ private fun CategoryItem(category: ExpenseCategory, onCategorySelected: (Expense
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseDescription(onDescriptionChange: (String) -> Unit, keyboardController: SoftwareKeyboardController?) {
-    var text by remember { mutableStateOf("") }
+private fun ExpenseDescription(
+    descriptionContent: String,
+    onDescriptionChange: (String) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
+    var text by remember { mutableStateOf(descriptionContent) }
 
     Column {
         Text(

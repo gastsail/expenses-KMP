@@ -5,12 +5,10 @@ import androidx.compose.runtime.getValue
 import data.ExpenseRepoImpl
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
-import model.Expense
-import model.ExpenseCategory
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
-import org.koin.compose.koinInject
+import moe.tlaster.precompose.navigation.path
 import presentation.ExpensesViewModel
 import ui.AddExpensesScreen
 import ui.ExpensesScreen
@@ -23,20 +21,19 @@ fun Navigation(navigator: Navigator) {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ExpensesScreen(uiState) { expense ->
-                //TODO, NAVIGATE TO /addExpenses WITH THE EXPENSE DATA, THEN POPULATE ITS FIELDS
-                // YOU SHOULD SEND THIS AS NAVIGATION ARGUMENTS
+                navigator.navigate("/addExpenses/${expense.id}")
             }
         }
-        scene("/addExpenses") {
-            //TODO RECEIVE ARGUMENTS HERE AND INITIALIZE ADDEXPENSESSCREEN WITH THOSE VALUES IF EXPENSES EXISTS
-            AddExpensesScreen(addExpenseAndNavigateBack = { price, description, expenseCategory ->
-                viewModel.addExpense(
-                    Expense(
-                        amount = price,
-                        category = ExpenseCategory.valueOf(expenseCategory),
-                        description = description
-                    )
-                )
+        scene("/addExpenses/{id}?") {
+            val idFromPath = it.path<Long>("id")
+            val isAddExpense = idFromPath?.let { id -> viewModel.getExpenseWithID(id) }
+
+            AddExpensesScreen(expenseToEdit = isAddExpense, addExpenseAndNavigateBack = { expense ->
+                if (isAddExpense == null) {
+                    viewModel.addExpense(expense)
+                } else {
+                    viewModel.editExpense(expense)
+                }
                 navigator.popBackStack()
             })
         }

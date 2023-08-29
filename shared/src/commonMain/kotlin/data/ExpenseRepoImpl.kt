@@ -3,7 +3,7 @@ package data
 import domain.ExpenseRepository
 import model.Expense
 
-class ExpenseRepoImpl: ExpenseRepository {
+class ExpenseRepoImpl : ExpenseRepository {
 
     override fun getAllExpenses(): List<Expense> {
         return ExpenseManager.fakeExpenseList
@@ -14,6 +14,6 @@ class ExpenseRepoImpl: ExpenseRepository {
     }
 
     override fun editExpense(expense: Expense) {
-        TODO("Not yet implemented")
+        ExpenseManager.editExpense(expense)
     }
 }
