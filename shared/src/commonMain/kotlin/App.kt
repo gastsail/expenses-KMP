@@ -93,12 +93,12 @@ fun App() {
 }
 
 @Composable
-fun getTitleTopAppBar(navigator:Navigator):String{
+fun getTitleTopAppBar(navigator: Navigator): String {
     var titleTopBar = TitleTopBarTypes.DASHBOARD
 
     val isOnAddExpenses =
         navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}?")
-    if (isOnAddExpenses){
+    if (isOnAddExpenses) {
         titleTopBar = TitleTopBarTypes.ADD
     }
 
@@ -107,5 +107,5 @@ fun getTitleTopAppBar(navigator:Navigator):String{
         titleTopBar = TitleTopBarTypes.EDIT
     }
 
-    return  titleTopBar.value
+    return titleTopBar.value
 }

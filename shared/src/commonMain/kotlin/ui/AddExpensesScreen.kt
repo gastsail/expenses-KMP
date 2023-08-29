@@ -63,12 +63,19 @@ import model.ExpenseCategory
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack: (Expense) -> Unit) {
+fun AddExpensesScreen(
+    expenseToEdit: Expense? = null,
+    addExpenseAndNavigateBack: (Expense) -> Unit
+) {
 
-    var price by remember { mutableStateOf(expenseToEdit?.amount ?: 0.0)}
+    var price by remember { mutableStateOf(expenseToEdit?.amount ?: 0.0) }
     var description by remember { mutableStateOf(expenseToEdit?.description ?: "") }
     var expenseCategory by remember { mutableStateOf(expenseToEdit?.category?.name ?: "") }
-    var categorySelected by remember { mutableStateOf(expenseToEdit?.category?.name ?: "Select a category") }
+    var categorySelected by remember {
+        mutableStateOf(
+            expenseToEdit?.category?.name ?: "Select a category"
+        )
+    }
     val sheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
@@ -76,7 +83,7 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(sheetState.targetValue) {
-        if(sheetState.targetValue == ModalBottomSheetValue.Expanded){
+        if (sheetState.targetValue == ModalBottomSheetValue.Expanded) {
             keyboardController?.hide()
         }
     }
@@ -132,7 +139,7 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
                 ),
                 enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
             ) {
-                expenseToEdit?.let{
+                expenseToEdit?.let {
                     Text(TitleTopBarTypes.EDIT.value)
                     return@Button
                 }
@@ -145,7 +152,11 @@ fun AddExpensesScreen(expenseToEdit: Expense ?= null, addExpenseAndNavigateBack:
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseAmount(priceContent:Double,onPriceChange: (Double) -> Unit, keyboardController: SoftwareKeyboardController?) {
+private fun ExpenseAmount(
+    priceContent: Double,
+    onPriceChange: (Double) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
     var text by remember { mutableStateOf("$priceContent") }
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -282,7 +293,11 @@ private fun CategoryItem(category: ExpenseCategory, onCategorySelected: (Expense
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun ExpenseDescription(descriptionContent:String,onDescriptionChange: (String) -> Unit, keyboardController: SoftwareKeyboardController?) {
+private fun ExpenseDescription(
+    descriptionContent: String,
+    onDescriptionChange: (String) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
     var text by remember { mutableStateOf(descriptionContent) }
 
     Column {

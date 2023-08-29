@@ -28,10 +28,10 @@ fun Navigation(navigator: Navigator) {
             val idFromPath = it.path<Long>("id")
             val isAddExpense = idFromPath?.let { id -> viewModel.getExpenseWithID(id) }
 
-            AddExpensesScreen(expenseToEdit = isAddExpense,addExpenseAndNavigateBack = { expense ->
-                if (isAddExpense == null){
+            AddExpensesScreen(expenseToEdit = isAddExpense, addExpenseAndNavigateBack = { expense ->
+                if (isAddExpense == null) {
                     viewModel.addExpense(expense)
-                }else{
+                } else {
                     viewModel.editExpense(expense)
                 }
                 navigator.popBackStack()
