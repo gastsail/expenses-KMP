@@ -39,8 +39,8 @@ fun App() {
                     if (isEditOrAddExpenses) {
                         IconButton(
                             onClick = {
-                            navigator.popBackStack()
-                        }) {
+                                navigator.popBackStack()
+                            }) {
                             Icon(
                                 modifier = Modifier.padding(start = 16.dp),
                                 imageVector = Icons.Default.ArrowBack,
@@ -69,7 +69,8 @@ fun App() {
                          */
                     }
                 },
-                backgroundColor = Color.White)
+                backgroundColor = Color.White
+            )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Navigation(navigator)

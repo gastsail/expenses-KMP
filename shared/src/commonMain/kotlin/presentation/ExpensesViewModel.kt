@@ -25,7 +25,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     private fun getAllExpenses() {
         viewModelScope.launch {
-            _uiState.update {state ->
+            _uiState.update { state ->
                 state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
@@ -34,7 +34,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     fun addExpense(expense: Expense) {
         viewModelScope.launch {
             repo.addExpense(expense)
-            _uiState.update {state ->
+            _uiState.update { state ->
                 state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
@@ -43,13 +43,13 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     fun editExpense(expense: Expense) {
         viewModelScope.launch {
             repo.editExpense(expense)
-            _uiState.update {state ->
+            _uiState.update { state ->
                 state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
             }
         }
     }
 
-    fun getExpenseWithID(id:Long):Expense?{
+    fun getExpenseWithID(id: Long): Expense {
         return allExpenses.first { it.id == id }
     }
 }

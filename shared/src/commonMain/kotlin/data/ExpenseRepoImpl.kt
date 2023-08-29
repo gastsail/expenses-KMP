@@ -3,7 +3,7 @@ package data
 import domain.ExpenseRepository
 import model.Expense
 
-class ExpenseRepoImpl: ExpenseRepository {
+class ExpenseRepoImpl : ExpenseRepository {
 
     override fun getAllExpenses(): List<Expense> {
         return ExpenseManager.fakeExpenseList
