@@ -2,7 +2,6 @@ package di
 
 import data.ExpenseRepoImpl
 import domain.ExpenseRepository
-import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module

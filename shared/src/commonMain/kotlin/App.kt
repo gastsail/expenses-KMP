@@ -58,16 +58,16 @@ fun App() {
                     }
                 },
                 actions = {
-                    if (!isEditOrAddExpenses) {
-                        /* TODO: THIS WORKS FOR ANDROID BUT NOT FOR iOS
-                        Image(
-                            modifier = Modifier.size(60.dp).clip(RoundedCornerShape(25)).padding(end = 16.dp),
-                            painter = painterResource("profile.png"),
-                            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
-                            contentDescription = null
-                        )
-                         */
-                    }
+                    /* TODO: THIS WORKS FOR ANDROID BUT NOT FOR iOS, THE RESOURCE CAN'T BE FOUND
+                  if (!isEditOrAddExpenses) {
+                  Image(
+                      modifier = Modifier.size(60.dp).clip(RoundedCornerShape(25)).padding(end = 16.dp),
+                      painter = painterResource("profile.png"),
+                      colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
+                      contentDescription = null
+                  )
+                   }
+                   */
                 },
                 backgroundColor = Color.White
             )
