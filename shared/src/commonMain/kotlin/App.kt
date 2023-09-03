@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.CrossConfigDevice
 import data.TitleTopBarTypes
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
@@ -26,7 +27,7 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
 
 @Composable
-fun App() {
+fun App(configDevice: CrossConfigDevice) {
     AppTheme {
         val navigator = rememberNavigator()
         val titleTopBar = getTitleTopAppBar(navigator)
@@ -69,7 +70,7 @@ fun App() {
                    }
                    */
                 },
-                backgroundColor = Color.White
+                backgroundColor = if(configDevice.isDarkModeEnabled()) Color.Black else Color.White
             )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
