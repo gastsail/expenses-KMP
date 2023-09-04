@@ -1,8 +1,13 @@
 package navigation
 
+import BackgroundDarkMode
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import data.ExpenseRepoImpl
+import data.SessionCache
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -17,7 +22,16 @@ import ui.ExpensesScreen
 fun Navigation(navigator: Navigator) {
     //val viewModel = koinInject<ExpensesViewModel>()  --> This works on Android, but cannot inject on iOS yet :(
     val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel(ExpenseRepoImpl()) })
-    NavHost(navigator = navigator, initialRoute = "/home") {
+    NavHost(
+        Modifier.background(
+            if (SessionCache.configDevice?.isDarkModeEnabled() == true) {
+                BackgroundDarkMode
+            } else {
+                Color.White
+            }
+        ),
+        navigator = navigator, initialRoute = "/home"
+    ) {
         scene("/home") {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ExpensesScreen(uiState) { expense ->

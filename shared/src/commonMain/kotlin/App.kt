@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.CrossConfigDevice
+import data.SessionCache
 import data.TitleTopBarTypes
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
@@ -28,6 +29,8 @@ import navigation.Navigation
 
 @Composable
 fun App(configDevice: CrossConfigDevice) {
+    SessionCache.configDevice = configDevice
+    val colorIcons = if(configDevice.isDarkModeEnabled()) Color.White else Color.Black
     AppTheme {
         val navigator = rememberNavigator()
         val titleTopBar = getTitleTopAppBar(navigator)
@@ -35,7 +38,12 @@ fun App(configDevice: CrossConfigDevice) {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             TopAppBar(
                 elevation = 0.dp,
-                title = { Text(titleTopBar, fontSize = 25.sp) },
+                title = {
+                    Text(
+                        color = colorIcons,
+                        text = titleTopBar, fontSize = 25.sp
+                    )
+                },
                 navigationIcon = {
                     if (isEditOrAddExpenses) {
                         IconButton(
@@ -45,7 +53,7 @@ fun App(configDevice: CrossConfigDevice) {
                             Icon(
                                 modifier = Modifier.padding(start = 16.dp),
                                 imageVector = Icons.Default.ArrowBack,
-                                tint = Color.Black,
+                                tint = colorIcons,
                                 contentDescription = null
                             )
                         }
@@ -53,7 +61,7 @@ fun App(configDevice: CrossConfigDevice) {
                         Icon(
                             modifier = Modifier.padding(start = 16.dp),
                             imageVector = Icons.Default.Apps,
-                            tint = Color.Black,
+                            tint = colorIcons,
                             contentDescription = null
                         )
                     }
@@ -70,7 +78,7 @@ fun App(configDevice: CrossConfigDevice) {
                    }
                    */
                 },
-                backgroundColor = if(configDevice.isDarkModeEnabled()) Color.Black else Color.White
+                backgroundColor = if(configDevice.isDarkModeEnabled()) BackgroundDarkMode else Color.White
             )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {

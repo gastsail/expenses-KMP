@@ -22,3 +22,4 @@ fun AppTheme(
 
 val Purple = Color(0xFF6A66FF)
 val GrayItem = Color(0xFFF1F1F1)
+val BackgroundDarkMode = Color(0xFF241F1F)
