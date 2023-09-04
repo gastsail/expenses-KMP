@@ -19,6 +19,9 @@ Currently, this app uses MVVM Architecture, which is achieved with a third-party
 Previews are only working on the Android side, currently, we include compose preview and compose uiTooling on the build.gradle (:shared) folder only for androidMain.
 Then inside *androidApp* we create a preview folder and use the Preview right there. 
 
+## Explanation Video
+[![Video](https://img.youtube.com/vi/VgQPsuYD_V4/0.jpg)](https://www.youtube.com/watch?v=VgQPsuYD_V4)
+
 Since this is a compose multiplatform project, we can preview only on the Android side, but this is not a blocker since the same view will be shown on iOS.
 
 We can create custom themes for iOS look and feel.
