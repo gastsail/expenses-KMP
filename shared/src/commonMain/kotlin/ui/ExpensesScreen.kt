@@ -1,7 +1,9 @@
 package ui
 
-import GrayItem
+import BackgroundColor
+import ColorExpenseItem
 import Purple
+import TextColor
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,11 +39,13 @@ import presentation.ExpensesUiState
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpensesScreen(uiState: ExpensesUiState, onExpenseClick: (expense: Expense) -> Unit) {
-    LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    LazyColumn(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
 
         stickyHeader {
-            Column(modifier = Modifier.background(Color.White)) {
+            Column(modifier = Modifier.background(BackgroundColor)) {
                 ExpensesTotalHeader(uiState.total)
                 AllExpensesHeader()
             }
@@ -83,7 +87,8 @@ fun AllExpensesHeader() {
             modifier = Modifier.weight(1f),
             text = "All Expenses",
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            color = TextColor
         )
         Button(
             shape = RoundedCornerShape(50),
@@ -102,7 +107,7 @@ fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp).clickable {
             onExpenseClick(expense)
         },
-        backgroundColor = GrayItem,
+        backgroundColor = ColorExpenseItem,
         shape = RoundedCornerShape(30)
     ) {
         Row(
@@ -123,7 +128,12 @@ fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
             }
 
             Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
-                Text(text = expense.category.name, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                Text(
+                    text = expense.category.name,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
+                    color = TextColor
+                )
                 Text(
                     text = expense.description,
                     fontWeight = FontWeight.SemiBold,
@@ -132,7 +142,12 @@ fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
                 )
             }
 
-            Text(text = "$${expense.amount}", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(
+                text = "$${expense.amount}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = TextColor
+            )
         }
     }
 }

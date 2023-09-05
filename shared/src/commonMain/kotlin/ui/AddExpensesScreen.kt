@@ -1,6 +1,7 @@
 package ui
 
 import Purple
+import TextColor
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,6 +57,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.ExpenseManager
+import data.SessionCache
 import data.TitleTopBarTypes
 import kotlinx.coroutines.launch
 import model.Expense
@@ -170,7 +172,7 @@ private fun ExpenseAmount(
             fontWeight = FontWeight.SemiBold
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = TextColor)
             TextField(
                 modifier = Modifier.weight(1f),
                 onValueChange = { newText ->
@@ -200,7 +202,7 @@ private fun ExpenseAmount(
                 ),
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = Color.Black,
+                    textColor = TextColor,
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     focusedLabelColor = Color.Transparent,
@@ -238,16 +240,21 @@ private fun ExpenseTypeSelector(
                 text = categorySelected,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Black
+                color = TextColor
             )
         }
+        val colorArrowRound = if (SessionCache.configDevice?.isDarkModeEnabled() == true) Purple else Color.Gray.copy(alpha = .2f)
         IconButton(
             modifier = Modifier.clip(RoundedCornerShape(35))
-                .background(Color.Gray.copy(alpha = .2f)),
+                .background(colorArrowRound),
             onClick = {
                 openBottomSheet.invoke()
             }) {
-            Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = null,
+                tint = TextColor
+            )
         }
     }
 }
@@ -318,7 +325,7 @@ private fun ExpenseDescription(
             value = text,
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.Black,
+                textColor = TextColor,
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 focusedLabelColor = Color.Transparent,

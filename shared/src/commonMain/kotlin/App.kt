@@ -30,7 +30,7 @@ import navigation.Navigation
 @Composable
 fun App(configDevice: CrossConfigDevice) {
     SessionCache.configDevice = configDevice
-    val colorIcons = if(configDevice.isDarkModeEnabled()) Color.White else Color.Black
+
     AppTheme {
         val navigator = rememberNavigator()
         val titleTopBar = getTitleTopAppBar(navigator)
@@ -40,7 +40,7 @@ fun App(configDevice: CrossConfigDevice) {
                 elevation = 0.dp,
                 title = {
                     Text(
-                        color = colorIcons,
+                        color = TextColor,
                         text = titleTopBar, fontSize = 25.sp
                     )
                 },
@@ -53,7 +53,7 @@ fun App(configDevice: CrossConfigDevice) {
                             Icon(
                                 modifier = Modifier.padding(start = 16.dp),
                                 imageVector = Icons.Default.ArrowBack,
-                                tint = colorIcons,
+                                tint = TextColor,
                                 contentDescription = null
                             )
                         }
@@ -61,7 +61,7 @@ fun App(configDevice: CrossConfigDevice) {
                         Icon(
                             modifier = Modifier.padding(start = 16.dp),
                             imageVector = Icons.Default.Apps,
-                            tint = colorIcons,
+                            tint = TextColor,
                             contentDescription = null
                         )
                     }
@@ -78,7 +78,7 @@ fun App(configDevice: CrossConfigDevice) {
                    }
                    */
                 },
-                backgroundColor = if(configDevice.isDarkModeEnabled()) BackgroundDarkMode else Color.White
+                backgroundColor = if(configDevice.isDarkModeEnabled()) BackgroundColor else Color.White
             )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -87,7 +87,7 @@ fun App(configDevice: CrossConfigDevice) {
                     FloatingActionButton(
                         modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), onClick = {
                             navigator.navigate("/addExpenses")
-                        }, shape = RoundedCornerShape(50), backgroundColor = Color.Black,
+                        }, shape = RoundedCornerShape(50), backgroundColor = AddIconColor,
                         contentColor = Color.White
                     ) {
                         Icon(
