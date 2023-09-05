@@ -23,4 +23,7 @@ Since this is a compose multiplatform project, we can preview only on the Androi
 
 We can create custom themes for iOS look and feel.
 
+## Explanation Video
+[![Video](https://img.youtube.com/vi/VgQPsuYD_V4/0.jpg)](https://www.youtube.com/watch?v=VgQPsuYD_V4)
+
 Feel free to add any PR that improves the app.
