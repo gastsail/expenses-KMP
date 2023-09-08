@@ -28,7 +28,9 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
 
 @Composable
-fun App(configDevice: CrossConfigDevice) {
+fun App(configDevice: CrossConfigDevice?=null) {
+
+    val colors = getColorsTheme()
     SessionCache.configDevice = configDevice
 
     AppTheme {
@@ -40,7 +42,7 @@ fun App(configDevice: CrossConfigDevice) {
                 elevation = 0.dp,
                 title = {
                     Text(
-                        color = TextColor,
+                        color = colors.TextColor,
                         text = titleTopBar, fontSize = 25.sp
                     )
                 },
@@ -53,7 +55,7 @@ fun App(configDevice: CrossConfigDevice) {
                             Icon(
                                 modifier = Modifier.padding(start = 16.dp),
                                 imageVector = Icons.Default.ArrowBack,
-                                tint = TextColor,
+                                tint = colors.TextColor,
                                 contentDescription = null
                             )
                         }
@@ -61,7 +63,7 @@ fun App(configDevice: CrossConfigDevice) {
                         Icon(
                             modifier = Modifier.padding(start = 16.dp),
                             imageVector = Icons.Default.Apps,
-                            tint = TextColor,
+                            tint = colors.TextColor,
                             contentDescription = null
                         )
                     }
@@ -78,7 +80,7 @@ fun App(configDevice: CrossConfigDevice) {
                    }
                    */
                 },
-                backgroundColor = if(configDevice.isDarkModeEnabled()) BackgroundColor else Color.White
+                backgroundColor = colors.BackgroundColor
             )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -87,7 +89,7 @@ fun App(configDevice: CrossConfigDevice) {
                     FloatingActionButton(
                         modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), onClick = {
                             navigator.navigate("/addExpenses")
-                        }, shape = RoundedCornerShape(50), backgroundColor = AddIconColor,
+                        }, shape = RoundedCornerShape(50), backgroundColor = colors.AddIconColor,
                         contentColor = Color.White
                     ) {
                         Icon(

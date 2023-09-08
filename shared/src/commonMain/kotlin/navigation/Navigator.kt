@@ -1,6 +1,5 @@
 package navigation
 
-import BackgroundColor
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,6 +7,7 @@ import androidx.compose.ui.Modifier
 import data.ExpenseRepoImpl
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import getColorsTheme
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
@@ -19,9 +19,10 @@ import ui.ExpensesScreen
 @Composable
 fun Navigation(navigator: Navigator) {
     //val viewModel = koinInject<ExpensesViewModel>()  --> This works on Android, but cannot inject on iOS yet :(
+    val colors = getColorsTheme()
     val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel(ExpenseRepoImpl()) })
     NavHost(
-        Modifier.background(BackgroundColor),
+        Modifier.background(colors.BackgroundColor),
         navigator = navigator, initialRoute = "/home"
     ) {
         scene("/home") {

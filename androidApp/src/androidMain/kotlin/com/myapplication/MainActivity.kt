@@ -15,23 +15,23 @@ class MainActivity : PreComposeActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TransparentStatusBar()
+            SetColorStatusBar()
             MainView()
         }
     }
 }
 
 @Composable
-private fun TransparentStatusBar() {
+private fun SetColorStatusBar() {
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
+    val isDarkMode = isSystemInDarkTheme()
 
-    DisposableEffect(systemUiController, useDarkIcons) {
+    DisposableEffect(systemUiController, isDarkMode) {
         // Update all of the system bar colors to be transparent, and use
         // dark icons if we're in light theme
         systemUiController.setSystemBarsColor(
-            color = Color.Transparent,
-            darkIcons = useDarkIcons
+            color = if (isDarkMode) Color(0xFF1E1C1C) else Color.White,
+            darkIcons = !isDarkMode
         )
 
         // setStatusBarColor() and setNavigationBarColor() also exist
