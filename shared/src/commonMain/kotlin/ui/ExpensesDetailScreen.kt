@@ -63,7 +63,7 @@ import model.ExpenseCategory
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun AddExpensesScreen(
+fun ExpensesDetailScreen(
     expenseToEdit: Expense? = null,
     addExpenseAndNavigateBack: (Expense) -> Unit
 ) {
