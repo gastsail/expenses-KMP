@@ -3,22 +3,22 @@ import SwiftUI
 @main
 struct iOSApp: App {
 
-    var isDarkMode: Bool {
-        let osTheme = UITraitCollection.current.userInterfaceStyle
-        return osTheme == .dark
+    @Environment(\.scenePhase) private var scenePhase
+
+    @State var isDarkMode: Bool = UITraitCollection.current.userInterfaceStyle == .dark
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView(isDarkMode: $isDarkMode)
+                .onChange(of: scenePhase) { newScenePhase in
+                    if newScenePhase == .active {
+                        let osTheme: UITraitCollection = UIScreen.main.traitCollection
+                        isDarkMode = osTheme.userInterfaceStyle == .dark
+                    }
+                }
+                .preferredColorScheme(isDarkMode ? .dark : .light)
+        }
     }
-
-    let colorStatusBarDark = Color(UIColor(rgb: 0xFF1E1C1C))
-
-	var body: some Scene {
-		WindowGroup {
-		    ZStack {
-		        isDarkMode ? colorStatusBarDark.ignoresSafeArea(.all) : Color.white.ignoresSafeArea(.all)// status bar color
-			    ContentView()
-			}
-			.preferredColorScheme(isDarkMode ? .dark : .light)
-		}
-	}
 }
 
 extension UIColor {
