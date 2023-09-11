@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.CrossConfigDevice
+import data.SessionCache
 import data.TitleTopBarTypes
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
@@ -26,7 +28,11 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
 
 @Composable
-fun App() {
+fun App(configDevice: CrossConfigDevice?=null) {
+
+    val colors = getColorsTheme()
+    SessionCache.configDevice = configDevice
+
     AppTheme {
         val navigator = rememberNavigator()
         val titleTopBar = getTitleTopAppBar(navigator)
@@ -34,7 +40,12 @@ fun App() {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             TopAppBar(
                 elevation = 0.dp,
-                title = { Text(titleTopBar, fontSize = 25.sp) },
+                title = {
+                    Text(
+                        color = colors.TextColor,
+                        text = titleTopBar, fontSize = 25.sp
+                    )
+                },
                 navigationIcon = {
                     if (isEditOrAddExpenses) {
                         IconButton(
@@ -44,7 +55,7 @@ fun App() {
                             Icon(
                                 modifier = Modifier.padding(start = 16.dp),
                                 imageVector = Icons.Default.ArrowBack,
-                                tint = Color.Black,
+                                tint = colors.TextColor,
                                 contentDescription = null
                             )
                         }
@@ -52,7 +63,7 @@ fun App() {
                         Icon(
                             modifier = Modifier.padding(start = 16.dp),
                             imageVector = Icons.Default.Apps,
-                            tint = Color.Black,
+                            tint = colors.TextColor,
                             contentDescription = null
                         )
                     }
@@ -69,7 +80,7 @@ fun App() {
                    }
                    */
                 },
-                backgroundColor = Color.White
+                backgroundColor = colors.BackgroundColor
             )
         }) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -78,7 +89,7 @@ fun App() {
                     FloatingActionButton(
                         modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), onClick = {
                             navigator.navigate("/addExpenses")
-                        }, shape = RoundedCornerShape(50), backgroundColor = Color.Black,
+                        }, shape = RoundedCornerShape(50), backgroundColor = colors.AddIconColor,
                         contentColor = Color.White
                     ) {
                         Icon(

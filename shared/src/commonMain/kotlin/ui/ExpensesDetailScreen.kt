@@ -1,6 +1,5 @@
 package ui
 
-import Purple
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.ExpenseManager
 import data.TitleTopBarTypes
+import getColorsTheme
 import kotlinx.coroutines.launch
 import model.Expense
 import model.ExpenseCategory
@@ -67,7 +67,7 @@ fun ExpensesDetailScreen(
     expenseToEdit: Expense? = null,
     addExpenseAndNavigateBack: (Expense) -> Unit
 ) {
-
+    val colors = getColorsTheme()
     var price by remember { mutableStateOf(expenseToEdit?.amount ?: 0.0) }
     var description by remember { mutableStateOf(expenseToEdit?.description ?: "") }
     var expenseCategory by remember { mutableStateOf(expenseToEdit?.category?.name ?: "") }
@@ -134,7 +134,7 @@ fun ExpensesDetailScreen(
                     addExpenseAndNavigateBack(expenseFromEdit ?: expense)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Purple,
+                    backgroundColor = colors.Purple,
                     contentColor = Color.White
                 ),
                 enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
@@ -157,6 +157,7 @@ private fun ExpenseAmount(
     onPriceChange: (Double) -> Unit,
     keyboardController: SoftwareKeyboardController?
 ) {
+    val colors = getColorsTheme()
     var text by remember { mutableStateOf("$priceContent") }
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -170,7 +171,7 @@ private fun ExpenseAmount(
             fontWeight = FontWeight.SemiBold
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = colors.TextColor)
             TextField(
                 modifier = Modifier.weight(1f),
                 onValueChange = { newText ->
@@ -200,7 +201,7 @@ private fun ExpenseAmount(
                 ),
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = Color.Black,
+                    textColor = colors.TextColor,
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     focusedLabelColor = Color.Transparent,
@@ -225,6 +226,8 @@ private fun ExpenseTypeSelector(
     categorySelected: String,
     openBottomSheet: () -> Unit
 ) {
+    val colors = getColorsTheme()
+
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
             Text(
@@ -238,16 +241,20 @@ private fun ExpenseTypeSelector(
                 text = categorySelected,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Black
+                color = colors.TextColor
             )
         }
         IconButton(
             modifier = Modifier.clip(RoundedCornerShape(35))
-                .background(Color.Gray.copy(alpha = .2f)),
+                .background(colors.colorArrowRound),
             onClick = {
                 openBottomSheet.invoke()
             }) {
-            Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = null,
+                tint = colors.TextColor
+            )
         }
     }
 }
@@ -299,6 +306,7 @@ private fun ExpenseDescription(
     keyboardController: SoftwareKeyboardController?
 ) {
     var text by remember { mutableStateOf(descriptionContent) }
+    val colors = getColorsTheme()
 
     Column {
         Text(
@@ -318,7 +326,7 @@ private fun ExpenseDescription(
             value = text,
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.Black,
+                textColor = colors.TextColor,
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 focusedLabelColor = Color.Transparent,
