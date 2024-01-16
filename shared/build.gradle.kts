@@ -38,25 +38,12 @@ kotlin {
                 api(compose.animation)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                //DI
-                implementation("io.insert-koin:koin-core:3.4.2")
-                implementation("io.insert-koin:koin-compose:1.0.3")
-
-                // Image processing
-                implementation("media.kamel:kamel-image:0.7.1")
-                // Serialization
-                implementation("io.ktor:ktor-client-core:2.3.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-                implementation("io.ktor:ktor-client-content-negotiation:2.3.3")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
                 // api mvvm-core, getViewModel for Compose Multiplatfrom
                 api("dev.icerock.moko:mvvm-compose:0.16.1")
                 // only ViewModel, EventsDispatcher, Dispatchers.UI
                 api("dev.icerock.moko:mvvm-core:0.16.1")
                 // Navigation
                 api("moe.tlaster:precompose:1.5.0-beta02")
-                // For ViewModel intergration
-                api("moe.tlaster:precompose-viewmodel:1.5.0-beta02")
             }
         }
 
@@ -76,10 +63,6 @@ kotlin {
                 api("androidx.core:core-ktx:1.9.0")
                 api(compose.preview)
                 api(compose.uiTooling)
-                //Serialization
-                implementation("io.ktor:ktor-client-android:2.3.3")
-                // Android ViewModel integration
-                implementation("cafe.adriel.voyager:voyager-androidx:1.0.0-rc05")
                 implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.4.3")
             }
         }
