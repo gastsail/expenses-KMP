@@ -5,24 +5,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import data.ExpenseRepoImpl
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import getColorsTheme
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
+import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.ExpensesViewModel
 import ui.ExpensesDetailScreen
 import ui.ExpensesScreen
 
 @Composable
 fun Navigation(navigator: Navigator) {
-    //val viewModel = koinInject<ExpensesViewModel>()  --> This works on Android, but cannot inject on iOS yet :(
     val colors = getColorsTheme()
-    val viewModel = getViewModel(Unit, viewModelFactory { ExpensesViewModel(ExpenseRepoImpl()) })
+    val viewModel = viewModel(modelClass = ExpensesViewModel::class) {
+        ExpensesViewModel(ExpenseRepoImpl())
+    }
     NavHost(
-        Modifier.background(colors.BackgroundColor),
+        modifier = Modifier.background(colors.BackgroundColor),
         navigator = navigator, initialRoute = "/home"
     ) {
         scene("/home") {

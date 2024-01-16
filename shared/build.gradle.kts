@@ -35,15 +35,14 @@ kotlin {
                 implementation(compose.material)
                 api(compose.materialIconsExtended)
                 api(compose.foundation)
-                api(compose.animation)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                // api mvvm-core, getViewModel for Compose Multiplatfrom
-                api("dev.icerock.moko:mvvm-compose:0.16.1")
-                // only ViewModel, EventsDispatcher, Dispatchers.UI
-                api("dev.icerock.moko:mvvm-core:0.16.1")
-                // Navigation
-                api("moe.tlaster:precompose:1.5.0-beta02")
+
+                //Navigation
+                api(compose.animation)
+                api("moe.tlaster:precompose:1.5.10")
+                //ViewModel
+                api("moe.tlaster:precompose-viewmodel:1.5.10")
             }
         }
 
@@ -124,6 +123,7 @@ android {
     }
 }
 dependencies {
+    implementation("androidx.core:core-ktx:+")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     configurations
         .filter { it.name.startsWith("ksp") && it.name.contains("Test") }

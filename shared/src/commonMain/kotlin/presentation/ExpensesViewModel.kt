@@ -1,12 +1,13 @@
 package presentation
 
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import domain.ExpenseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import model.Expense
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
 data class ExpensesUiState(
     val expenses: List<Expense> = emptyList(),
