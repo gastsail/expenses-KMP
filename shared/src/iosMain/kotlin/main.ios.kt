@@ -1,3 +1,3 @@
-import moe.tlaster.precompose.PreComposeApplication
+import androidx.compose.ui.window.ComposeUIViewController
 
-fun mainViewController() = PreComposeApplication { App(CrossConfigDevice()) }
+fun mainViewController() = ComposeUIViewController { App(CrossConfigDevice()) }

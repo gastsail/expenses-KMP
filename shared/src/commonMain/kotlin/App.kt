@@ -22,82 +22,92 @@ import androidx.compose.ui.unit.sp
 import data.CrossConfigDevice
 import data.SessionCache
 import data.TitleTopBarTypes
+import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
 
 @Composable
-fun App(configDevice: CrossConfigDevice?=null) {
+fun App(configDevice: CrossConfigDevice? = null) {
 
-    val colors = getColorsTheme()
-    SessionCache.configDevice = configDevice
+    PreComposeApp {
 
-    AppTheme {
-        val navigator = rememberNavigator()
-        val titleTopBar = getTitleTopAppBar(navigator)
-        val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
-        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-            TopAppBar(
-                elevation = 0.dp,
-                title = {
-                    Text(
-                        color = colors.TextColor,
-                        text = titleTopBar, fontSize = 25.sp
+        val colors = getColorsTheme()
+        SessionCache.configDevice = configDevice
+
+        AppTheme {
+            val navigator = rememberNavigator()
+            val titleTopBar = getTitleTopAppBar(navigator)
+            val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
+            Scaffold(modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    TopAppBar(
+                        elevation = 0.dp,
+                        title = {
+                            Text(
+                                color = colors.TextColor,
+                                text = titleTopBar, fontSize = 25.sp
+                            )
+                        },
+                        navigationIcon = {
+                            if (isEditOrAddExpenses) {
+                                IconButton(
+                                    onClick = {
+                                        navigator.popBackStack()
+                                    }) {
+                                    Icon(
+                                        modifier = Modifier.padding(start = 16.dp),
+                                        imageVector = Icons.Default.ArrowBack,
+                                        tint = colors.TextColor,
+                                        contentDescription = null
+                                    )
+                                }
+                            } else {
+                                Icon(
+                                    modifier = Modifier.padding(start = 16.dp),
+                                    imageVector = Icons.Default.Apps,
+                                    tint = colors.TextColor,
+                                    contentDescription = null
+                                )
+                            }
+                        },
+                        actions = {
+                            /* TODO: THIS WORKS FOR ANDROID BUT NOT FOR iOS, THE RESOURCE CAN'T BE FOUND
+                          if (!isEditOrAddExpenses) {
+                          Image(
+                              modifier = Modifier.size(60.dp).clip(RoundedCornerShape(25)).padding(end = 16.dp),
+                              painter = painterResource("profile.png"),
+                              colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
+                              contentDescription = null
+                          )
+                           }
+                           */
+                        },
+                        backgroundColor = colors.BackgroundColor
                     )
                 },
-                navigationIcon = {
-                    if (isEditOrAddExpenses) {
-                        IconButton(
+                floatingActionButton = {
+                    if (!isEditOrAddExpenses) {
+                        FloatingActionButton(
+                            modifier = Modifier.padding(8.dp),
                             onClick = {
-                                navigator.popBackStack()
-                            }) {
+                                navigator.navigate("/addExpenses")
+                            },
+                            shape = RoundedCornerShape(50),
+                            backgroundColor = colors.AddIconColor,
+                            contentColor = Color.White
+                        ) {
                             Icon(
-                                modifier = Modifier.padding(start = 16.dp),
-                                imageVector = Icons.Default.ArrowBack,
-                                tint = colors.TextColor,
+                                imageVector = Icons.Default.Add,
+                                tint = Color.White,
                                 contentDescription = null
                             )
                         }
-                    } else {
-                        Icon(
-                            modifier = Modifier.padding(start = 16.dp),
-                            imageVector = Icons.Default.Apps,
-                            tint = colors.TextColor,
-                            contentDescription = null
-                        )
                     }
-                },
-                actions = {
-                    /* TODO: THIS WORKS FOR ANDROID BUT NOT FOR iOS, THE RESOURCE CAN'T BE FOUND
-                  if (!isEditOrAddExpenses) {
-                  Image(
-                      modifier = Modifier.size(60.dp).clip(RoundedCornerShape(25)).padding(end = 16.dp),
-                      painter = painterResource("profile.png"),
-                      colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }),
-                      contentDescription = null
-                  )
-                   }
-                   */
-                },
-                backgroundColor = colors.BackgroundColor
-            )
-        }) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Navigation(navigator)
-                if (!isEditOrAddExpenses) {
-                    FloatingActionButton(
-                        modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), onClick = {
-                            navigator.navigate("/addExpenses")
-                        }, shape = RoundedCornerShape(50), backgroundColor = colors.AddIconColor,
-                        contentColor = Color.White
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            tint = Color.White,
-                            contentDescription = null
-                        )
-                    }
+                }) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Navigation(navigator)
                 }
             }
         }
