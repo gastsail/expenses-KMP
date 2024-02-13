@@ -43,6 +43,12 @@ kotlin {
                 api("moe.tlaster:precompose:1.5.10")
                 //ViewModel
                 api("moe.tlaster:precompose-viewmodel:1.5.10")
+
+                //Koin
+                implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.1"))
+                implementation("io.insert-koin:koin-core")
+                implementation("io.insert-koin:koin-compose")
+                api("moe.tlaster:precompose-koin:1.5.10")
             }
         }
 
@@ -63,6 +69,11 @@ kotlin {
                 api(compose.preview)
                 api(compose.uiTooling)
                 implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.4.3")
+
+                //Koin
+                implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.1"))
+                implementation("io.insert-koin:koin-core")
+                implementation("io.insert-koin:koin-android")
             }
         }
 

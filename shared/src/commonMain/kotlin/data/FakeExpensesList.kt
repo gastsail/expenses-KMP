@@ -67,7 +67,7 @@ object ExpenseManager {
         }
     }
 
-    fun getCategorys(): List<ExpenseCategory> {
+    fun getCategories(): List<ExpenseCategory> {
         return listOf(
             ExpenseCategory.GROCERIES,
             ExpenseCategory.PARTY,

@@ -65,6 +65,7 @@ import model.ExpenseCategory
 @Composable
 fun ExpensesDetailScreen(
     expenseToEdit: Expense? = null,
+    categoryList: List<ExpenseCategory> = emptyList(),
     addExpenseAndNavigateBack: (Expense) -> Unit
 ) {
     val colors = getColorsTheme()
@@ -91,7 +92,7 @@ fun ExpensesDetailScreen(
     ModalBottomSheetLayout(
         sheetState = sheetState,
         sheetContent = {
-            CategoryBottomSheetContent(ExpenseManager.getCategorys()) {
+            CategoryBottomSheetContent(categoryList) {
                 expenseCategory = it.name
                 categorySelected = it.name
                 scope.launch {

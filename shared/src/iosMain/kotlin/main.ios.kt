@@ -1,3 +1,11 @@
 import androidx.compose.ui.window.ComposeUIViewController
+import di.appModule
+import org.koin.core.context.startKoin
 
-fun mainViewController() = ComposeUIViewController { App(CrossConfigDevice()) }
+fun MainViewController() = ComposeUIViewController { App(CrossConfigDevice()) }
+
+fun initKoin() {
+    startKoin {
+        modules(appModule())
+    }.koin
+}
