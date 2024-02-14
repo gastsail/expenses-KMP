@@ -12,18 +12,6 @@ class ExpenseRepoImpl(
 
     private val queries = appDatabase.expensesDbQueries
 
-    override fun populateDb() {
-        queries.transaction {
-            expenseManager.fakeExpenseList.forEach {
-                queries.insert(
-                    amount = it.amount,
-                    categoryName = it.category.name,
-                    description = it.description
-                )
-            }
-        }
-    }
-
     override fun getAllExpenses(): List<Expense> {
         return queries.selectAll().executeAsList().map {
             Expense(

@@ -22,7 +22,6 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
     private var allExpenses: MutableList<Expense> = mutableListOf()
 
     init {
-        repo.populateDb()
         updateExpenseList()
     }
 

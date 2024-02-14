@@ -11,7 +11,6 @@ import presentation.ExpensesViewModel
 
 fun appModule(appDatabase: AppDatabase) = module {
     single { ExpenseManager }.withOptions { createdAtStart() }
-    single { AppDatabase.invoke(get()) }
     single<ExpenseRepository> { ExpenseRepoImpl(get(), appDatabase) }
     factory { ExpensesViewModel(get()) }
 }
