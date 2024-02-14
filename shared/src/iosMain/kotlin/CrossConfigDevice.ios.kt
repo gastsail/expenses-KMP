@@ -8,5 +8,4 @@ class CrossConfigDevice : CrossConfigDevice {
         val osTheme: UITraitCollection = UIScreen.mainScreen.traitCollection
         return osTheme.userInterfaceStyle == UIUserInterfaceStyle.UIUserInterfaceStyleDark
     }
-
 }

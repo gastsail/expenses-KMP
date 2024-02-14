@@ -4,6 +4,7 @@ import model.Expense
 import model.ExpenseCategory
 
 interface ExpenseRepository {
+    fun populateDb()
     fun getAllExpenses(): List<Expense>
     fun addExpense(expense: Expense)
     fun editExpense(expense: Expense)

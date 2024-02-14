@@ -1,0 +1,21 @@
+CREATE TABLE ExpenseEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    amount REAL NOT NULL,
+    categoryName TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+insert:
+INSERT INTO ExpenseEntity (amount, categoryName, description)
+VALUES (?, ?, ?);
+
+update:
+UPDATE ExpenseEntity
+SET amount = ?,
+    categoryName = ?,
+    description = ?
+WHERE id = ?;
+
+selectAll:
+SELECT *
+FROM ExpenseEntity;

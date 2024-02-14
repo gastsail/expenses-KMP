@@ -19,47 +19,43 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
-    private val allExpense = repo.getAllExpenses()
+    private var allExpenses: MutableList<Expense> = mutableListOf()
 
     init {
-        getAllExpenses()
+        repo.populateDb()
+        updateExpenseList()
     }
 
-    private fun getAllExpenses() {
+    private fun updateExpenseList() {
         viewModelScope.launch {
+            allExpenses = repo.getAllExpenses().toMutableList()
             updateState()
         }
     }
 
     fun addExpense(expense: Expense) {
-        viewModelScope.launch {
-            repo.addExpense(expense)
-            updateState()
-        }
+        repo.addExpense(expense)
+        updateExpenseList()
     }
 
     fun editExpense(expense: Expense) {
-        viewModelScope.launch {
-            repo.editExpense(expense)
-            updateState()
-        }
+        repo.editExpense(expense)
+        updateExpenseList()
     }
 
     fun deleteExpense(expense: Expense) {
-        viewModelScope.launch {
-            repo.deleteExpense(expense)
-            updateState()
-        }
+        repo.deleteExpense(expense)
+        updateExpenseList()
     }
 
     private fun updateState() {
         _uiState.update { state ->
-            state.copy(expenses = allExpense, total = allExpense.sumOf { it.amount })
+            state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
         }
     }
 
     fun getExpenseWithID(id: Long): Expense {
-        return allExpense.first { it.id == id }
+        return allExpenses.first { it.id == id }
     }
 
     fun getCategories(): List<ExpenseCategory> {
