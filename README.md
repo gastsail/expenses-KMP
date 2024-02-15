@@ -39,3 +39,8 @@ We can create custom themes for iOS look and feel.
 [![Video](https://img.youtube.com/vi/VgQPsuYD_V4/0.jpg)](https://www.youtube.com/watch?v=VgQPsuYD_V4)
 
 Feel free to add any PR that improves the app.
+
+## Support the project
+# If you like this project you can leave your cup of coffee here 👇
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cz3H0ZfiV)
+
