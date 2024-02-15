@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.9.0"
     id("com.google.devtools.ksp") version "1.9.0-1.0.11"
-    id("app.cash.sqldelight") version "2.0.0"
+    id("app.cash.sqldelight") version "2.0.1"
 }
 
 sqldelight {
@@ -85,7 +85,7 @@ kotlin {
                 implementation("io.insert-koin:koin-android")
 
                 //SQLDelight
-                implementation("app.cash.sqldelight:android-driver:2.0.0")
+                implementation("app.cash.sqldelight:android-driver:2.0.1")
             }
         }
 
@@ -106,7 +106,8 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:2.3.3")
-                implementation("app.cash.sqldelight:native-driver:2.0.0")
+                implementation("app.cash.sqldelight:native-driver:2.0.1")
+                implementation("co.touchlab:stately-common:2.0.5")
             }
         }
         val iosX64Test by getting
