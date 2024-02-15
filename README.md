@@ -1,5 +1,3 @@
-This is a demo project currently WIP for Compose Multi-Platform
-
 ## App
 
 # 🍎iOS
@@ -19,11 +17,12 @@ This is a demo project currently WIP for Compose Multi-Platform
 </div>
 
 ## App Architecture
-Currently, this app uses MVVM Architecture, which is achieved with a third-party library called Moko.
+Currently, this app uses MVVM Architecture, which is achieved with a third-party library called PreCompose.
 
 ## Libraries
-- Moko for Viewmodels
+- PreCompose for Viewmodels
 - PreCompose for Navigation
+- Koin for DI with PreCompose
 - Ktor (not used but included for serialization if we pull the data from any API)
 - Kamel (also not used but if we need to load images from the internet in future version of the app, we included it)
 
@@ -39,3 +38,12 @@ We can create custom themes for iOS look and feel.
 [![Video](https://img.youtube.com/vi/VgQPsuYD_V4/0.jpg)](https://www.youtube.com/watch?v=VgQPsuYD_V4)
 
 Feel free to add any PR that improves the app.
+
+## Full Udemy Course [Spanish]
+https://www.udemy.com/course/kotlin-multiplataforma-curso-intensivo-para-android-y-ios/
+
+## Support the project
+If you like this project you can leave your cup of coffee here 👇
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cz3H0ZfiV)
+
