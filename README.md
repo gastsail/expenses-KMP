@@ -1,5 +1,3 @@
-This is a demo project currently WIP for Compose Multi-Platform
-
 ## App
 
 # 🍎iOS
@@ -19,11 +17,12 @@ This is a demo project currently WIP for Compose Multi-Platform
 </div>
 
 ## App Architecture
-Currently, this app uses MVVM Architecture, which is achieved with a third-party library called Moko.
+Currently, this app uses MVVM Architecture, which is achieved with a third-party library called PreCompose.
 
 ## Libraries
-- Moko for Viewmodels
+- PreCompose for Viewmodels
 - PreCompose for Navigation
+- Koin for DI with PreCompose
 - Ktor (not used but included for serialization if we pull the data from any API)
 - Kamel (also not used but if we need to load images from the internet in future version of the app, we included it)
 
