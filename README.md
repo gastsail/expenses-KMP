@@ -40,7 +40,8 @@ We can create custom themes for iOS look and feel.
 
 Feel free to add any PR that improves the app.
 
-# Support the project
-## If you like this project you can leave your cup of coffee here 👇
+## Support the project
+If you like this project you can leave your cup of coffee here 👇
+
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cz3H0ZfiV)
 
