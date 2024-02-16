@@ -6,7 +6,6 @@ import model.Expense
 import model.ExpenseCategory
 
 class ExpenseRepoImpl(
-    private val expenseManager: ExpenseManager,
     private val appDatabase: AppDatabase
 ) : ExpenseRepository {
 
@@ -49,6 +48,8 @@ class ExpenseRepoImpl(
     }
 
     override fun getCategories(): List<ExpenseCategory> {
-        return expenseManager.getCategories()
+        return queries.categories().executeAsList().map {
+            ExpenseCategory.valueOf(it)
+        }
     }
 }

@@ -29,3 +29,7 @@ WHERE id = ?;
 selectAll:
 SELECT *
 FROM ExpenseEntity;
+
+categories:
+SELECT categoryName
+FROM ExpenseEntity;
