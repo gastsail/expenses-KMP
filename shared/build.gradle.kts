@@ -1,9 +1,9 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    kotlin("plugin.serialization") version "1.9.22"
     id("com.android.library")
     id("org.jetbrains.compose")
-    kotlin("plugin.serialization") version "1.9.0"
     id("com.google.devtools.ksp") version "1.9.0-1.0.11"
     id("app.cash.sqldelight") version "2.0.1"
 }
@@ -58,6 +58,12 @@ kotlin {
                 implementation("io.insert-koin:koin-core")
                 implementation("io.insert-koin:koin-compose")
                 api("moe.tlaster:precompose-koin:1.5.10")
+
+                //Ktor
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.content.negotiation)
+                implementation(libs.ktor.serialization)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
@@ -86,6 +92,9 @@ kotlin {
 
                 //SQLDelight
                 implementation("app.cash.sqldelight:android-driver:2.0.1")
+
+                // Ktor
+                implementation(libs.ktor.client.okhttp)
             }
         }
 
@@ -108,6 +117,8 @@ kotlin {
                 implementation("io.ktor:ktor-client-darwin:2.3.3")
                 implementation("app.cash.sqldelight:native-driver:2.0.1")
                 implementation("co.touchlab:stately-common:2.0.5")
+                // Ktor
+                implementation(libs.ktor.client.darwin)
             }
         }
         val iosX64Test by getting

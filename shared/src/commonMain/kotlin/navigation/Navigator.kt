@@ -23,7 +23,7 @@ fun Navigation(navigator: Navigator) {
     val viewModel = koinViewModel(ExpensesViewModel::class) { parametersOf() }
 
     NavHost(
-        modifier = Modifier.background(colors.BackgroundColor),
+        modifier = Modifier.background(colors.backgroundColor),
         navigator = navigator, initialRoute = "/home"
     ) {
         scene("/home") {

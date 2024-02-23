@@ -134,7 +134,7 @@ fun ExpensesDetailScreen(
                     addExpenseAndNavigateBack(expenseFromEdit ?: expense)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colors.Purple,
+                    backgroundColor = colors.purple,
                     contentColor = Color.White
                 ),
                 enabled = price != 0.0 && description.isNotBlank() && expenseCategory.isNotBlank()
@@ -171,7 +171,7 @@ private fun ExpenseAmount(
             fontWeight = FontWeight.SemiBold
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = colors.TextColor)
+            Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = colors.textColor)
             TextField(
                 modifier = Modifier.weight(1f),
                 onValueChange = { newText ->
@@ -201,7 +201,7 @@ private fun ExpenseAmount(
                 ),
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = colors.TextColor,
+                    textColor = colors.textColor,
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     focusedLabelColor = Color.Transparent,
@@ -241,7 +241,7 @@ private fun ExpenseTypeSelector(
                 text = categorySelected,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = colors.TextColor
+                color = colors.textColor
             )
         }
         IconButton(
@@ -253,7 +253,7 @@ private fun ExpenseTypeSelector(
             Icon(
                 imageVector = Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
-                tint = colors.TextColor
+                tint = colors.textColor
             )
         }
     }
@@ -326,7 +326,7 @@ private fun ExpenseDescription(
             value = text,
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = colors.TextColor,
+                textColor = colors.textColor,
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 focusedLabelColor = Color.Transparent,

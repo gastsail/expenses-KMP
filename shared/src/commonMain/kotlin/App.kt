@@ -47,7 +47,7 @@ fun App(configDevice: CrossConfigDevice? = null) {
                             elevation = 0.dp,
                             title = {
                                 Text(
-                                    color = colors.TextColor,
+                                    color = colors.textColor,
                                     text = titleTopBar, fontSize = 25.sp
                                 )
                             },
@@ -60,7 +60,7 @@ fun App(configDevice: CrossConfigDevice? = null) {
                                         Icon(
                                             modifier = Modifier.padding(start = 16.dp),
                                             imageVector = Icons.Default.ArrowBack,
-                                            tint = colors.TextColor,
+                                            tint = colors.textColor,
                                             contentDescription = null
                                         )
                                     }
@@ -68,7 +68,7 @@ fun App(configDevice: CrossConfigDevice? = null) {
                                     Icon(
                                         modifier = Modifier.padding(start = 16.dp),
                                         imageVector = Icons.Default.Apps,
-                                        tint = colors.TextColor,
+                                        tint = colors.textColor,
                                         contentDescription = null
                                     )
                                 }
@@ -85,7 +85,7 @@ fun App(configDevice: CrossConfigDevice? = null) {
                                }
                                */
                             },
-                            backgroundColor = colors.BackgroundColor
+                            backgroundColor = colors.backgroundColor
                         )
                     },
                     floatingActionButton = {
@@ -96,7 +96,7 @@ fun App(configDevice: CrossConfigDevice? = null) {
                                     navigator.navigate("/addExpenses")
                                 },
                                 shape = RoundedCornerShape(50),
-                                backgroundColor = colors.AddIconColor,
+                                backgroundColor = colors.addIconColor,
                                 contentColor = Color.White
                             ) {
                                 Icon(
