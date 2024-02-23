@@ -24,7 +24,9 @@ Currently, this app uses MVVM Architecture, which is achieved with a third-party
 - PreCompose for Navigation
 - Koin for DI with PreCompose
 - Ktor (not used but included for serialization if we pull the data from any API)
-- Kamel (also not used but if we need to load images from the internet in future version of the app, we included it)
+- Kamel (also not used but if we need to load images from the internet in future versions of the app, we include it)
+- SQLDelight 2.0.1 for local storage
+- Ktor for API support (please follow https://github.com/gastsail/ktorExpensesApi/tree/master to start the server) also see ExpensesRepoImpl to setup the BASE_URL
 
 ## Previews
 Previews are only working on the Android side, currently, we include compose preview and compose uiTooling on the build.gradle (:shared) folder only for androidMain.
