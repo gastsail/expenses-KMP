@@ -4,6 +4,7 @@ import com.expenseApp.db.AppDatabase
 import domain.ExpenseRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -16,7 +17,7 @@ import model.NetworkExpense
 
 //Change ip with your ip after runing server, please see
 //https://github.com/gastsail/ktorExpensesApi/tree/master
-private const val BASE_URL = "http://192.168.1.106:8080"
+private const val BASE_URL = "http://192.168.0.102:8080"
 
 class ExpenseRepoImpl(
     private val appDatabase: AppDatabase,
@@ -96,7 +97,28 @@ class ExpenseRepoImpl(
         }
     }
 
-    override fun deleteExpense(expense: Expense): List<Expense> {
-        TODO("Not yet implemented")
+    override suspend fun deleteExpense(expense: Expense): List<Expense> {
+        httpClient.delete("$BASE_URL/expenses/${expense.id}") {
+            contentType(ContentType.Application.Json)
+            setBody(NetworkExpense(
+                id = expense.id,
+                amount = expense.amount,
+                categoryName = expense.category.name,
+                description = expense.description
+            ))
+        }
+        queries.transaction {
+            queries.delete(
+                id = expense.id
+            )
+        }
+        return queries.selectAll().executeAsList().map {
+            Expense(
+                id = it.id,
+                amount = it.amount,
+                category = ExpenseCategory.valueOf(it.categoryName),
+                description = it.description
+            )
+        }
     }
 }
