@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import getColorsTheme
@@ -56,11 +57,13 @@ fun ExpensesScreen(
         is ExpensesUiState.Success -> {
             if(uiState.expenses.isEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = "No expenses found, please add your first expense with the + symbol down below.",
+                        textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.body1
                     )
                 }

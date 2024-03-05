@@ -14,6 +14,7 @@ import io.ktor.http.contentType
 import model.Expense
 import model.ExpenseCategory
 import model.NetworkExpense
+import org.koin.core.component.getScopeId
 
 //Change ip with your ip after runing server, please see
 //https://github.com/gastsail/ktorExpensesApi/tree/master
@@ -29,6 +30,7 @@ class ExpenseRepoImpl(
     override suspend fun getAllExpenses(): List<Expense> {
         return if (queries.selectAll().executeAsList().isEmpty()) {
             val networkResponse = httpClient.get("$BASE_URL/expenses").body<List<NetworkExpense>>()
+            if(networkResponse.isEmpty()) return emptyList()
             val expenses = networkResponse.map { networkExpense ->
                 Expense(
                     id = networkExpense.id,
