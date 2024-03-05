@@ -99,11 +99,11 @@ class ExpenseRepoImpl(
         }
     }
 
-    override suspend fun deleteExpense(expense: Expense) {
-        httpClient.delete("$BASE_URL/expenses/${expense.id}")
+    override suspend fun deleteExpense(id: Long) {
+        httpClient.delete("$BASE_URL/expenses/${id}")
         queries.transaction {
             queries.delete(
-                id = expense.id
+                id = id
             )
         }
     }
