@@ -21,5 +21,14 @@ SELECT *
 FROM ExpenseEntity;
 
 categories:
-SELECT categoryName
-FROM ExpenseEntity;
+SELECT "GROCERIES" AS categoryName
+UNION SELECT "SNACKS"
+UNION SELECT "CAR"
+UNION SELECT "COFFEE"
+UNION SELECT "PARTY"
+UNION SELECT "HOUSE"
+UNION SELECT "OTHER";
+
+delete:
+DELETE FROM ExpenseEntity
+WHERE id = ?;

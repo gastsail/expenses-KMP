@@ -66,10 +66,10 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
         }
     }
 
-    fun deleteExpense(expense: Expense) {
+    fun deleteExpense(id: Long) {
         viewModelScope.launch {
             try {
-                repo.deleteExpense(expense)
+                repo.deleteExpense(id)
                 updateExpenseList()
             } catch (e: Exception) {
                 _uiState.value = ExpensesUiState.Error(e.message ?: "Unknown error occurred")
