@@ -99,27 +99,11 @@ class ExpenseRepoImpl(
         }
     }
 
-    override suspend fun deleteExpense(expense: Expense): List<Expense> {
-        httpClient.delete("$BASE_URL/expenses/${expense.id}") {
-            contentType(ContentType.Application.Json)
-            setBody(NetworkExpense(
-                id = expense.id,
-                amount = expense.amount,
-                categoryName = expense.category.name,
-                description = expense.description
-            ))
-        }
+    override suspend fun deleteExpense(expense: Expense) {
+        httpClient.delete("$BASE_URL/expenses/${expense.id}")
         queries.transaction {
             queries.delete(
                 id = expense.id
-            )
-        }
-        return queries.selectAll().executeAsList().map {
-            Expense(
-                id = it.id,
-                amount = it.amount,
-                category = ExpenseCategory.valueOf(it.categoryName),
-                description = it.description
             )
         }
     }
