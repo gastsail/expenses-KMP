@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,13 @@ import androidx.compose.ui.unit.sp
 import getColorsTheme
 import model.Expense
 import presentation.ExpensesUiState
+import utils.EXPENSE_SCREEN_ERROR_TEST_TAG
+import utils.EXPENSE_SCREEN_ERROR_TEXT_TEST_TAG
+import utils.EXPENSE_SCREEN_LOADING_TEST_TAG
+import utils.EXPENSE_SCREEN_SUCCESS_CLICK_ITEM_TEST_TAG
+import utils.EXPENSE_SCREEN_SUCCESS_EMPTY_TEST_TAG
+import utils.EXPENSE_SCREEN_SUCCESS_TEST_TAG
+import utils.EXPENSE_SCREEN_SUCCESS_TOTAL_TEST_TAG
 import utils.SwipeToDeleteContainer
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -49,15 +57,17 @@ fun ExpensesScreen(
 
     when (uiState) {
         is ExpensesUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize().testTag(
+                EXPENSE_SCREEN_LOADING_TEST_TAG
+            ), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         }
 
         is ExpensesUiState.Success -> {
-            if(uiState.expenses.isEmpty()) {
+            if (uiState.expenses.isEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp).testTag(EXPENSE_SCREEN_SUCCESS_EMPTY_TEST_TAG),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -69,7 +79,9 @@ fun ExpensesScreen(
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp).testTag(
+                        EXPENSE_SCREEN_SUCCESS_TEST_TAG
+                    ),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     stickyHeader {
@@ -92,10 +104,11 @@ fun ExpensesScreen(
 
         is ExpensesUiState.Error -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().testTag(EXPENSE_SCREEN_ERROR_TEST_TAG),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
+                    modifier = Modifier.testTag(EXPENSE_SCREEN_ERROR_TEXT_TEST_TAG),
                     text = "Error: ${uiState.message}",
                     style = MaterialTheme.typography.body1
                 )
@@ -112,6 +125,7 @@ fun ExpensesTotalHeader(total: Double) {
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
+                modifier = Modifier.testTag(EXPENSE_SCREEN_SUCCESS_TOTAL_TEST_TAG),
                 text = "$$total",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -156,7 +170,7 @@ fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp).clickable {
             onExpenseClick(expense)
-        },
+        }.testTag(EXPENSE_SCREEN_SUCCESS_CLICK_ITEM_TEST_TAG.plus("_${expense.id}")),
         backgroundColor = colors.colorExpenseItem,
         shape = RoundedCornerShape(30)
     ) {
