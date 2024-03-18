@@ -10,7 +10,7 @@ import kotlin.test.Test
 class TestUi {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun shouldPrefixWithInfoTag() = runComposeUiTest {
+    fun shouldAssertTextString() = runComposeUiTest {
         setContent {
             Text(text = "Important things!", modifier = Modifier.testTag("info"))
         }
