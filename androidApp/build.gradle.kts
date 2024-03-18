@@ -44,7 +44,7 @@ android {
         resources.excludes.add("META-INF/versions")
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.6"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     buildFeatures {
         compose = true

@@ -49,15 +49,15 @@ kotlin {
 
                 //Navigation
                 api(compose.animation)
-                api("moe.tlaster:precompose:1.5.10")
+                api(libs.precompose)
                 //ViewModel
-                api("moe.tlaster:precompose-viewmodel:1.5.10")
+                api(libs.precompose.viewmodel)
 
                 //Koin
                 implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.1"))
                 implementation("io.insert-koin:koin-core")
                 implementation("io.insert-koin:koin-compose")
-                api("moe.tlaster:precompose-koin:1.5.10")
+                api(libs.precompose.koin)
 
                 //Ktor
                 implementation(libs.ktor.client.core)
@@ -71,19 +71,19 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-                implementation("io.mockative:mockative:2.0.1")
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.mockative)
             }
         }
 
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api(libs.activity.compose)
+                api(libs.appcompat)
+                api(libs.core.ktx)
                 api(compose.preview)
                 api(compose.uiTooling)
-                implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.4.3")
+                implementation(libs.ui.tooling.preview)
 
                 //Koin
                 implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.1"))
@@ -91,7 +91,7 @@ kotlin {
                 implementation("io.insert-koin:koin-android")
 
                 //SQLDelight
-                implementation("app.cash.sqldelight:android-driver:2.0.1")
+                implementation(libs.android.driver)
 
                 // Ktor
                 implementation(libs.ktor.client.okhttp)
@@ -101,7 +101,7 @@ kotlin {
         val androidUnitTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation(libs.junit)
             }
         }
 
@@ -114,9 +114,9 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:2.3.3")
-                implementation("app.cash.sqldelight:native-driver:2.0.1")
-                implementation("co.touchlab:stately-common:2.0.5")
+                implementation(libs.ktor.client.darwin.v233)
+                implementation(libs.native.driver)
+                implementation(libs.stately.common)
                 // Ktor
                 implementation(libs.ktor.client.darwin)
             }

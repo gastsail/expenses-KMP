@@ -1,11 +1,36 @@
 [versions]
+androidDriver = "2.0.1"
+appcompat = "1.6.1"
+activityCompose = "1.6.1"
+coreKtx = "1.9.0"
 coroutines = "1.7.3"
+junit = "4.13.2"
 ktor = "2.3.8"
+ktorClientDarwin = "2.3.3"
+mockative = "2.0.1"
+precomposeViewmodel = "1.5.10"
+precompose = "1.5.10"
+statelyCommon = "2.0.5"
+uiToolingPreview = "1.4.3"
 
 [libraries]
+android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "androidDriver" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin-v233 = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientDarwin" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
+precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeViewmodel" }
+precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeViewmodel" }
+precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
+native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "androidDriver" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
