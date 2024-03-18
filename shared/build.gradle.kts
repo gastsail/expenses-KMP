@@ -73,6 +73,10 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockative)
+                implementation(kotlin("test"))
+
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
             }
         }
 
