@@ -41,6 +41,7 @@ We can create custom themes for iOS look and feel.
 Feel free to add any PR that improves the app.
 
 ## Full Udemy Course [Spanish]
+### Want to learn how to build this app from scratch ? 👇
 https://www.udemy.com/course/kotlin-multiplataforma-curso-intensivo-para-android-y-ios/
 
 ## Support the project
