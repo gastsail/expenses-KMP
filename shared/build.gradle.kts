@@ -82,6 +82,8 @@ kotlin {
                 implementation(libs.ktor.content.negotiation)
                 implementation(libs.ktor.serialization)
                 implementation(libs.kotlinx.coroutines.core)
+
+                implementation(compose.components.resources)
             }
         }
 
@@ -173,6 +175,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
+        task("testClasses")
         jvmToolchain(17)
     }
     packagingOptions {
